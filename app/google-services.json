@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "239989635450",
+    "firebase_url": "https://fluttr-fef85.firebaseio.com",
+    "project_id": "fluttr-fef85",
+    "storage_bucket": "fluttr-fef85.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:239989635450:android:23f2c156ce268779",
+        "android_client_info": {
+          "package_name": "com.mttnow.fluttr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "239989635450-jji0f2tpm1mg5a689qh6tcp288eje7q4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpLSMuZpQu66c71irxtWr23TOZT7Hz10k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

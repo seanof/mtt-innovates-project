@@ -1,0 +1,40 @@
+############
+# IntelliJ #
+############
+
+*.iml
+*.ipr
+*.iws
+.idea/
+out/
+
+##################
+# import strings #
+##################
+
+*.credentials
+
+##########
+# Gradle #
+##########
+
+.gradle/
+build/
+
+##################
+# Android Studio #
+##################
+
+local.properties
+
+##########
+# Mac OS #
+##########
+
+.DS_Store
+
+##########################
+# Linux temporary files #
+##########################
+
+*~
