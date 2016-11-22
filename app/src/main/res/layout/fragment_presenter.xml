@@ -4,9 +4,7 @@
     android:id="@+id/content_presenter"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_select"
     tools:context="com.mttnow.fluttr.PresenterActivityFragment"
     tools:showIn="@layout/activity_presenter">
-
 
 </RelativeLayout>
