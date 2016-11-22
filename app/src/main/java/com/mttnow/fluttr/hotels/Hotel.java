@@ -1,5 +1,7 @@
 package com.mttnow.fluttr.hotels;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -8,10 +10,16 @@ import java.util.List;
 
 public class Hotel {
 
+    //retailHotelInfoModel
+    @SerializedName("hotelName")
     private String name;
+    @SerializedName("hotelDescription")
     private String desc;
-    private List<String> amenities;
+    @SerializedName("familyFriendlyAmenities")
+    private List<Amenity> amenities;
+    @SerializedName("hotelStarRating")
     private String starRating;
+    @SerializedName("largeThumbnailURL")
     private String imageUrl;
     private String price;
     private long lat;
