@@ -3,13 +3,14 @@ package com.mttnow.fluttr.service.hotels;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mttnow.fluttr.domain.hotels.Hotel;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,15 +19,15 @@ import java.util.List;
 
 public class HotelsService {
 
-  private static Gson gson;
+  private Gson gson;
 
-  private HotelsService () throws FileNotFoundException {
-    gson = new Gson();
+   public HotelsService(Gson g) {
+    gson = g;
   }
 
-  public static List<Hotel> getHotels(String destination) throws FileNotFoundException {
-    BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File("mock-expedia-hotels-" + destination + ".json"))));
-    return (List<Hotel>) gson.fromJson(reader, Hotel.class);
+  public List<Hotel> getHotels(String destination, Context c) throws IOException {
+    Reader reader = new BufferedReader(new InputStreamReader(c.getAssets().open("mock-expedia-hotels-" + destination + ".json"), "UTF-8"));
+    return gson.fromJson(reader, new TypeToken<ArrayList<Hotel>>() {}.getType());
   }
 
 }
