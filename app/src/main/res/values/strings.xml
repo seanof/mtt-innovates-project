@@ -5,4 +5,9 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="action_settings">Settings</string>
+    <string name="find_me_a_trip_to">Find me a trip to</string>
+    <string name="from_the">from the</string>
+    <string name="for_space">"for "</string>
+    <string name="people">" people."</string>
+    <string name="suggestions">Suggestions:</string>
 </resources>
