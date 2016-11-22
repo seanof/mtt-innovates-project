@@ -6,7 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.mttnow.fluttr.managers.HotelStreamManager;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    HotelStreamManager hotelStreamManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,6 +19,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button begin = (Button) findViewById(R.id.begin_btn);
         begin.setOnClickListener(this);
+
+        hotelStreamManager = new HotelStreamManager();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.mttnow.fluttr.hotels;
+package com.mttnow.fluttr.domain.hotels;
 
 /**
  * Created by seanb on 17/11/2016.
