@@ -1,4 +1,4 @@
-package com.mttnow.fluttr.hotels;
+package com.mttnow.fluttr.domain.hotels;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -8,7 +8,7 @@ import java.util.List;
  * Created by seanoflaherty on 14/11/2016.
  */
 
-public class Hotel {
+public class HotelInfo {
 
     //retailHotelInfoModel
     @SerializedName("hotelName")
