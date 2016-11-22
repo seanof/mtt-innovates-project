@@ -8,7 +8,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.mttnow.fluttr.MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:theme="@style/AppTheme.NoTitle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,14 +18,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mttnow.fluttr.PresenterActivity"
+            android:name=".PresenterActivity"
             android:label="@string/title_activity_presenter"
-            android:parentActivityName="com.mttnow.fluttr.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mttnow.fluttr.MainActivity" />
-        </activity>
+            android:theme="@style/AppTheme.NoTitle"></activity>
     </application>
 
 </manifest>
