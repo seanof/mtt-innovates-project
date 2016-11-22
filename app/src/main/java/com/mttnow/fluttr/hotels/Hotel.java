@@ -43,11 +43,11 @@ public class Hotel {
         this.desc = desc;
     }
 
-    public List<String> getAmenities() {
+    public List<Amenity> getAmenities() {
         return amenities;
     }
 
-    public void setAmenities(List<String> amenities) {
+    public void setAmenities(List<Amenity> amenities) {
         this.amenities = amenities;
     }
 
