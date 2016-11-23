@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button begin = (Button) findViewById(R.id.begin_btn);
         begin.setOnClickListener(this);
 
-        hotelStreamManager = new HotelStreamManager();
+        hotelStreamManager = new HotelStreamManager(this);
     }
 
     @Override
