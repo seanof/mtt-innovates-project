@@ -185,6 +185,8 @@ public class SearchCriteriaFragment extends Fragment implements EditText.OnEdito
         returnDate.setVisibility(View.INVISIBLE);
         returnDateText.setVisibility(View.INVISIBLE);
         numTravelersLayout.setVisibility(View.INVISIBLE);
+
+        promptDestinationInput();
     }
 
     @Override
