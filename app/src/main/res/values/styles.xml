@@ -36,6 +36,12 @@
         <item name="android:textColor">@color/white_translucent</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">32sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:inputType">textAutoComplete</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="streamItemTitle" parent="baseFontFamily">
