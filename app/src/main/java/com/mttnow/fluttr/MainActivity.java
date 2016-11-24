@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.begin_btn:
-                startActivity(new Intent(this, PresenterActivity.class));
+                startActivity(new Intent(this, HotelStreamActivity.class));
                 break;
         }
     }

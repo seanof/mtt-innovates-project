@@ -1,14 +1,12 @@
 package com.mttnow.fluttr.managers;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.mttnow.fluttr.domain.hotels.Hotel;
+import com.mttnow.fluttr.service.hotels.HotelStreamFragment;
 import com.mttnow.fluttr.service.hotels.HotelsService;
 
-import java.io.Console;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -20,22 +18,33 @@ public class HotelStreamManager {
 
   private Context context;
   private HotelsService hotelsService;
-  ArrayList<Hotel> currentStream;
+
+  public ArrayList<Hotel> currentStream;
 
   public HotelStreamManager(Context c) {
     context = c;
     hotelsService = new HotelsService(new Gson());
-    startStream();
   }
 
-  private void startStream () {
-    currentStream = new ArrayList<Hotel>();
+  public void startStream (StreamManagerCallback callback) {
+    currentStream = new ArrayList<>();
     try {
       currentStream = (ArrayList<Hotel>) hotelsService.getHotels("sfo", context);
-      Log.v("", currentStream.size() + "");
+      callback.streamReady(getHotelFragments(currentStream));
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  public ArrayList<HotelStreamFragment> getHotelFragments(ArrayList<Hotel> hotels) {
+    ArrayList<HotelStreamFragment> hotelFragments = new ArrayList<>();
+
+    for (Hotel hotel : hotels) {
+      HotelStreamFragment hotelFragment = HotelStreamFragment.newInstance(hotel);
+      hotelFragments.add(hotelFragment);
+    }
+
+    return hotelFragments;
   }
 
 }

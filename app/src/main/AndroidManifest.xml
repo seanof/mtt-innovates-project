@@ -18,9 +18,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PresenterActivity"
-            android:label="@string/title_activity_presenter"
-            android:theme="@style/AppTheme.NoTitle"></activity>
+            android:name=".HotelStreamActivity"
+            android:theme="@style/AppTheme.NoTitle">
+        </activity>
     </application>
 
 </manifest>
