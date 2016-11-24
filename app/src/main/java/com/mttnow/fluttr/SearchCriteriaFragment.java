@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -68,6 +69,13 @@ public class SearchCriteriaFragment extends Fragment implements EditText.OnEdito
     private void setupSuggestionList() {
         suggestionList.setAdapter(new ArrayAdapter<>(getContext(),
                 R.layout.suggestion_list_item, SUGGESTIONS));
+        suggestionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                destination.setText(suggestionList.getItemAtPosition(i).toString());
+                promptTravelDate(departDate);
+            }
+        });
     }
 
     private void promptDestinationInput() {
