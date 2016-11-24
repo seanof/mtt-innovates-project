@@ -19,19 +19,29 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="searchHeaderText">
+    <style name="baseFontFamily">
+        <item name="android:fontFamily">sans-serif-thin</item>
+    </style>
+
+    <style name="searchHeaderText" parent="baseFontFamily">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">32sp</item>
     </style>
 
-    <style name="searchHeaderInputText">
+    <style name="searchHeaderInputText" parent="baseFontFamily">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/white_translucent</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">32sp</item>
+    </style>
+
+    <style name="streamItemTitle" parent="baseFontFamily">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">48sp</item>
     </style>
 
 </resources>
