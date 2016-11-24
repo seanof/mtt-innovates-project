@@ -26,25 +26,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/destination"
-            android:paddingRight="5dp"
-            tools:text="PARIS"
-            style="@style/searchHeaderInputText" />
+            <EditText
+                android:id="@+id/destination"
+                android:paddingRight="5dp"
+                android:inputType="textAutoComplete"
+                tools:text="PARIS"
+                style="@style/searchHeaderInputText" />
 
-        <TextView
-            android:visibility="invisible"
-            android:id="@+id/travel_date_text"
-            style="@style/searchHeaderText"
-            android:text="@string/from_the" />
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/travel_date_text"
+                style="@style/searchHeaderText"
+                android:text="@string/from_the" />
 
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/travel_date"
-            android:visibility="invisible"
-            style="@style/searchHeaderInputText"
-            tools:text="14-20 DEC 2016" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/travel_date_depart"
+                android:inputType="date"
+                android:visibility="invisible"
+                style="@style/searchHeaderInputText"
+                tools:text="14-20 DEC 2016" />
+
+            <EditText
+                android:id="@+id/travel_date_return"
+                android:inputType="date"
+                android:visibility="invisible"
+                style="@style/searchHeaderInputText"
+                tools:text="14-20" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/num_travelers_parent"
@@ -53,20 +68,21 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-        <TextView
-            style="@style/searchHeaderText"
-            android:text="@string/for_space" />
+            <TextView
+                style="@style/searchHeaderText"
+                android:text="@string/for_space" />
 
-        <EditText
-            android:id="@+id/num_travelers"
-            style="@style/searchHeaderInputText"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp"
-            tools:text="2" />
+            <EditText
+                android:id="@+id/num_travelers"
+                android:inputType="number"
+                style="@style/searchHeaderInputText"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                tools:text="2" />
 
-        <TextView
-            style="@style/searchHeaderText"
-            android:text="@string/people" />
+            <TextView
+                style="@style/searchHeaderText"
+                android:text="@string/people" />
 
         </LinearLayout>
 
@@ -94,12 +110,12 @@
             android:text="@string/suggestions"
             style="?android:attr/textAppearanceMedium" />
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
     </RelativeLayout>
 

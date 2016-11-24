@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import util.EditTextDatePicker;
+
 public class SearchCriteriaFragment extends Fragment implements EditText.OnEditorActionListener {
 
     private EditText destination;
@@ -30,7 +32,7 @@ public class SearchCriteriaFragment extends Fragment implements EditText.OnEdito
         View view = inflater.inflate(R.layout.fragment_presenter, container, false);
 
         destination = (EditText) view.findViewById(R.id.destination);
-        travelDate = (EditText) view.findViewById(R.id.travel_date);
+        travelDate = (EditText) view.findViewById(R.id.travel_date_depart);
         numTravelers = (EditText) view.findViewById(R.id.num_travelers);
 
         travelDateText = (TextView) view.findViewById(R.id.travel_date_text);
@@ -49,6 +51,7 @@ public class SearchCriteriaFragment extends Fragment implements EditText.OnEdito
     private void promptTravelDate() {
         travelDateText.setVisibility(View.VISIBLE);
         travelDate.setVisibility(View.VISIBLE);
+        new EditTextDatePicker(travelDate, getActivity());
         travelDate.requestFocus();
         travelDate.setOnEditorActionListener(this);
     }
@@ -67,7 +70,7 @@ public class SearchCriteriaFragment extends Fragment implements EditText.OnEdito
                     promptTravelDate();
                     return true;
                 }
-            case R.id.travel_date:
+            case R.id.travel_date_depart:
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     travelDate.performClick();
                     promptNumTravellers();
