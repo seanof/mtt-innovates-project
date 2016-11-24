@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -20,7 +21,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class SearchCriteriaFragment extends Fragment implements EditText.OnEditorActionListener {
+public class SearchCriteriaFragment extends Fragment implements EditText.OnEditorActionListener, View.OnClickListener {
+
+    private Button clearButton;
 
     private EditText destination;
     private EditText departDate;
@@ -35,9 +38,12 @@ public class SearchCriteriaFragment extends Fragment implements EditText.OnEdito
 
     final Calendar myCalendar = Calendar.getInstance();
 
+    private long minDate;
+
     private String paramDestination;
-    private String paramDate;
-    private int paramNumTravelers;
+    private String paramDepartDate;
+    private String paramReturnDate;
+    private int paramNumTravelers = 0;
 
     private static final String[] SUGGESTIONS = {"Paris", "London", "Dublin", "New York", "San Francisco"};
 
@@ -48,6 +54,9 @@ public class SearchCriteriaFragment extends Fragment implements EditText.OnEdito
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_presenter, container, false);
+
+        clearButton = (Button) view.findViewById(R.id.clear_button);
+        clearButton.setOnClickListener(this);
 
         destination = (EditText) view.findViewById(R.id.destination);
         departDate = (EditText) view.findViewById(R.id.travel_date_depart);
@@ -118,9 +127,13 @@ public class SearchCriteriaFragment extends Fragment implements EditText.OnEdito
                     @Override
                     public void onFocusChange(View view, boolean focused) {
                         if (focused) {
-                            new DatePickerDialog(getContext(), date, myCalendar
+                            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), date, myCalendar
                                     .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                                    myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                                    myCalendar.get(Calendar.DAY_OF_MONTH));
+                            if (dateEditText.getId() == R.id.travel_date_return) {
+                                datePickerDialog.getDatePicker().setMinDate(minDate);
+                            }
+                            datePickerDialog.show();
                         }
                     }
                 }
@@ -134,6 +147,7 @@ public class SearchCriteriaFragment extends Fragment implements EditText.OnEdito
         String displayDateFormat = "dd-MMM-yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(displayDateFormat, Locale.US);
         if (id == R.id.travel_date_depart) {
+            minDate = myCalendar.getTimeInMillis() + 24 * 60 * 60 * 1000;
             departDate.setText(sdf.format(myCalendar.getTime()));
             departDate.clearFocus();
             promptTravelDate(returnDate);
@@ -152,8 +166,25 @@ public class SearchCriteriaFragment extends Fragment implements EditText.OnEdito
 
     private void saveParams() {
         paramDestination = destination.getText().toString().trim().toLowerCase();
-        paramDate = departDate.getText().toString().trim();
+        paramDepartDate = departDate.getText().toString().trim();
         paramNumTravelers = Integer.parseInt(departDate.getText().toString());
+    }
+
+    private void clearAllFields() {
+        destination.setText(null);
+        departDate.setText(null);
+        returnDate.setText(null);
+        numTravelers.setText(null);
+        paramDestination = null;
+        paramDepartDate = null;
+        paramReturnDate = null;
+        paramNumTravelers = 0;
+
+        departDate.setVisibility(View.INVISIBLE);
+        departDateText.setVisibility(View.INVISIBLE);
+        returnDate.setVisibility(View.INVISIBLE);
+        returnDateText.setVisibility(View.INVISIBLE);
+        numTravelersLayout.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -172,5 +203,13 @@ public class SearchCriteriaFragment extends Fragment implements EditText.OnEdito
                 }
         }
         return false;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.clear_button:
+                clearAllFields();
+        }
     }
 }
