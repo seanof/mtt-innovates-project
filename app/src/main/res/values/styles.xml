@@ -47,7 +47,9 @@
     <style name="streamItemTitle" parent="baseFontFamily">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">48sp</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:lineSpacingMultiplier">0.75</item>
+        <item name="android:textAlignment">center</item>
     </style>
 
 </resources>

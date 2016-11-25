@@ -42,6 +42,8 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
       }
     });
 
+    ((Button) findViewById(R.id.like_button)).setOnClickListener(this);
+
     container = (ViewGroup) findViewById(R.id.stream_container);
   }
 
@@ -51,6 +53,15 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
       case R.id.begin_btn:
         startActivity(new Intent(this, PresenterActivity.class));
         break;
+      case R.id.like_button:
+        goToNextHotel();
+        break;
     }
+  }
+
+  private void goToNextHotel () {
+    ft = getSupportFragmentManager().beginTransaction();
+    ft.replace(R.id.stream_container, hotelStreamManager.getNextFragment());
+    ft.commit();
   }
 }

@@ -19,11 +19,15 @@ public class HotelStreamManager {
   private Context context;
   private HotelsService hotelsService;
 
-  public ArrayList<Hotel> currentStream;
+  private ArrayList<Hotel> currentStream;
+  private ArrayList<HotelStreamFragment> currentHotelFragments;
+
+  private int hotelIndex;
 
   public HotelStreamManager(Context c) {
     context = c;
     hotelsService = new HotelsService(new Gson());
+    hotelIndex = 0;
   }
 
   public void startStream (StreamManagerCallback callback) {
@@ -36,15 +40,20 @@ public class HotelStreamManager {
     }
   }
 
+  public HotelStreamFragment getNextFragment() {
+    hotelIndex++;
+    return currentHotelFragments.get(hotelIndex);
+  }
+
   public ArrayList<HotelStreamFragment> getHotelFragments(ArrayList<Hotel> hotels) {
-    ArrayList<HotelStreamFragment> hotelFragments = new ArrayList<>();
+    currentHotelFragments = new ArrayList<>();
 
     for (Hotel hotel : hotels) {
       HotelStreamFragment hotelFragment = HotelStreamFragment.newInstance(hotel);
-      hotelFragments.add(hotelFragment);
+      currentHotelFragments.add(hotelFragment);
     }
 
-    return hotelFragments;
+    return currentHotelFragments;
   }
 
 }
