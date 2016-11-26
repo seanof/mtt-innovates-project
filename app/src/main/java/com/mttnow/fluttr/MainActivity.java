@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Button search = (Button) findViewById(R.id.search_btn);
+        search.setOnClickListener(this);
         Button begin = (Button) findViewById(R.id.begin_btn);
         begin.setOnClickListener(this);
 
@@ -26,6 +28,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.search_btn:
+                startActivity(new Intent(this, PresenterActivity.class));
+                break;
             case R.id.begin_btn:
                 startActivity(new Intent(this, HotelStreamActivity.class));
                 break;

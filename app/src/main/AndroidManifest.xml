@@ -21,6 +21,10 @@
             android:name=".HotelStreamActivity"
             android:theme="@style/AppTheme.NoTitle">
         </activity>
+        <activity
+            android:name=".PresenterActivity"
+            android:theme="@style/AppTheme.NoTitle">
+        </activity>
     </application>
 
 </manifest>

@@ -8,69 +8,26 @@
     tools:context="com.mttnow.fluttr.SearchCriteriaFragment"
     tools:showIn="@layout/activity_presenter">
 
-    <LinearLayout
-        android:id="@+id/search_text_header"
+    <RelativeLayout
+        android:id="@+id/header_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:text="@string/find_me_a_trip_to"
-            style="@style/searchHeaderText" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/destination"
-            android:paddingRight="5dp"
-            tools:text="PARIS"
-            style="@style/searchHeaderInputText" />
-
-        <TextView
-            android:visibility="invisible"
-            android:id="@+id/travel_date_text"
-            style="@style/searchHeaderText"
-            android:text="@string/from_the" />
-
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/travel_date"
-            android:visibility="invisible"
-            style="@style/searchHeaderInputText"
-            tools:text="14-20 DEC 2016" />
-
-        <LinearLayout
-            android:id="@+id/num_travelers_parent"
-            android:visibility="invisible"
-            android:layout_width="match_parent"
+        <Button
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:id="@+id/clear_button"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/white"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:text="@string/clear" />
 
-        <TextView
-            style="@style/searchHeaderText"
-            android:text="@string/for_space" />
+    </RelativeLayout>
 
-        <EditText
-            android:id="@+id/num_travelers"
-            style="@style/searchHeaderInputText"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp"
-            tools:text="2" />
-
-        <TextView
-            style="@style/searchHeaderText"
-            android:text="@string/people" />
-
-        </LinearLayout>
-
-    </LinearLayout>
+    <include
+        android:id="@+id/search_text_header"
+        layout="@layout/search_header_layout" />
 
     <View
         android:id="@+id/divider"
@@ -87,19 +44,25 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/suggestion_header"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:textColor="@android:color/white"
             android:textStyle="italic"
             android:text="@string/suggestions"
+            android:layout_marginBottom="5dp"
             style="?android:attr/textAppearanceMedium" />
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <ListView
+            android:layout_below="@+id/suggestion_header"
+            android:id="@+id/suggestion_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:divider="@drawable/list_divider"
+            android:dividerHeight="1dp" />
 
     </RelativeLayout>
 
