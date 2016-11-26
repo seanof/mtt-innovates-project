@@ -7,14 +7,16 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 
 public interface HotelService {
-    @GET("/hotels/{destination}")
-    Call<List<Hotel>> listHotels(@Path("destination") String destination);
 
-    public static final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://api.github.com/")
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl("http://192.168.0.16:9000")
+            .addConverterFactory(GsonConverterFactory.create())
             .build();
+
+    @GET("/hotels")
+    Call<List<Hotel>> listHotels();
 }

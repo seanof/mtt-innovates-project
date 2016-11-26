@@ -7,12 +7,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import com.mttnow.fluttr.domain.hotels.Hotel;
+import com.mttnow.fluttr.listeners.OnSwipeTouchListener;
 import com.mttnow.fluttr.managers.HotelStreamManager;
 import com.mttnow.fluttr.managers.HotelStreamManagerCallback;
-import com.mttnow.fluttr.managers.StreamManagerCallback;
 import com.mttnow.fluttr.service.hotels.HotelStreamFragment;
 
 import java.util.List;
@@ -43,6 +41,15 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
     });
 
     container = (ViewGroup) findViewById(R.id.stream_container);
+
+    container.setOnTouchListener(new OnSwipeTouchListener(HotelStreamActivity.this) {
+      public void onSwipeRight() {
+        goToNextHotel();
+      }
+      public void onSwipeLeft() {
+        goToNextHotel();
+      }
+    });
   }
 
   @Override
@@ -52,5 +59,11 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
         startActivity(new Intent(this, PresenterActivity.class));
         break;
     }
+  }
+
+  private void goToNextHotel () {
+    ft = getSupportFragmentManager().beginTransaction();
+    ft.replace(R.id.stream_container, hotelStreamManager.getNextFragment());
+    ft.commit();
   }
 }
