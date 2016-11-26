@@ -9,13 +9,10 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import com.mttnow.fluttr.domain.hotels.Hotel;
 import com.mttnow.fluttr.listeners.OnSwipeTouchListener;
 import com.mttnow.fluttr.managers.HotelStreamManager;
 import com.mttnow.fluttr.managers.HotelStreamManagerCallback;
-import com.mttnow.fluttr.managers.StreamManagerCallback;
 import com.mttnow.fluttr.service.hotels.HotelStreamFragment;
 
 import java.util.List;

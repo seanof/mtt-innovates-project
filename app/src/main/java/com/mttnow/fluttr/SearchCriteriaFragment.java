@@ -1,6 +1,7 @@
 package com.mttnow.fluttr;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,13 +17,15 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class SearchCriteriaFragment extends Fragment implements EditText.OnEditorActionListener, View.OnClickListener {
+public class SearchCriteriaFragment extends Fragment implements
+        EditText.OnEditorActionListener, View.OnClickListener {
 
     private EditText destination;
     private EditText departDate;
@@ -32,6 +36,8 @@ public class SearchCriteriaFragment extends Fragment implements EditText.OnEdito
     private TextView returnDateText;
 
     private LinearLayout numTravelersLayout;
+    private RelativeLayout suggestionLayout;
+    private LinearLayout selectionLayout;
     private ListView suggestionList;
 
     final Calendar myCalendar = Calendar.getInstance();
@@ -43,7 +49,8 @@ public class SearchCriteriaFragment extends Fragment implements EditText.OnEdito
     private String paramReturnDate;
     private int paramNumTravelers = 0;
 
-    private static final String[] SUGGESTIONS = {"Paris", "London", "Dublin", "New York", "San Francisco"};
+    private static final String[] SUGGESTIONS = {"Paris", "London", "Dublin",
+            "New York", "San Francisco"};
 
     public SearchCriteriaFragment() {
     }
@@ -64,6 +71,9 @@ public class SearchCriteriaFragment extends Fragment implements EditText.OnEdito
         departDateText = (TextView) view.findViewById(R.id.travel_date_text);
         returnDateText = (TextView) view.findViewById(R.id.travel_date_text_return);
         numTravelersLayout = (LinearLayout) view.findViewById(R.id.num_travelers_parent);
+
+        suggestionLayout = (RelativeLayout) view.findViewById(R.id.suggestion_layout);
+        selectionLayout = (LinearLayout) view.findViewById(R.id.selection_layout);
 
         suggestionList = (ListView) view.findViewById(R.id.suggestion_list);
 
@@ -86,8 +96,8 @@ public class SearchCriteriaFragment extends Fragment implements EditText.OnEdito
     }
 
     private void promptDestinationInput() {
-        destination.requestFocus();
         destination.setOnEditorActionListener(this);
+        destination.requestFocus();
     }
 
     private void promptTravelDate(EditText editText) {
@@ -125,7 +135,8 @@ public class SearchCriteriaFragment extends Fragment implements EditText.OnEdito
                     @Override
                     public void onFocusChange(View view, boolean focused) {
                         if (focused) {
-                            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), date, myCalendar
+                            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+                                    date, myCalendar
                                     .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                                     myCalendar.get(Calendar.DAY_OF_MONTH));
                             if (dateEditText.getId() == R.id.travel_date_return) {
@@ -159,13 +170,24 @@ public class SearchCriteriaFragment extends Fragment implements EditText.OnEdito
 
     private void promptNumTravellers() {
         numTravelersLayout.setVisibility(View.VISIBLE);
+        numTravelers.setOnEditorActionListener(this);
         numTravelers.requestFocus();
     }
 
     private void saveParams() {
         paramDestination = destination.getText().toString().trim().toLowerCase();
         paramDepartDate = departDate.getText().toString().trim();
-        paramNumTravelers = Integer.parseInt(departDate.getText().toString());
+        paramReturnDate = returnDate.getText().toString().trim();
+        paramNumTravelers = Integer.parseInt(numTravelers.getText().toString());
+        suggestionLayout.setVisibility(View.GONE);
+        selectionLayout.setVisibility(View.VISIBLE);
+
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(
+                    Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     private void clearAllFields() {
@@ -183,6 +205,9 @@ public class SearchCriteriaFragment extends Fragment implements EditText.OnEdito
         returnDate.setVisibility(View.INVISIBLE);
         returnDateText.setVisibility(View.INVISIBLE);
         numTravelersLayout.setVisibility(View.INVISIBLE);
+
+        suggestionLayout.setVisibility(View.VISIBLE);
+        selectionLayout.setVisibility(View.GONE);
 
         promptDestinationInput();
     }
@@ -210,6 +235,13 @@ public class SearchCriteriaFragment extends Fragment implements EditText.OnEdito
         switch (view.getId()) {
             case R.id.clear_button:
                 clearAllFields();
+                break;
+            case R.id.flights_select:
+                break;
+            case R.id.hotels_select:
+                break;
+            case R.id.packages_select:
+                break;
         }
     }
 }

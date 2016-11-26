@@ -1,59 +1,60 @@
 package com.mttnow.fluttr.managers;
 
 import android.content.Context;
+import android.widget.Toast;
 
-import com.google.gson.Gson;
+import com.mttnow.fluttr.api.HotelService;
 import com.mttnow.fluttr.domain.hotels.Hotel;
 import com.mttnow.fluttr.service.hotels.HotelStreamFragment;
-import com.mttnow.fluttr.service.hotels.HotelsService;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created by seanb on 22/11/2016.
- */
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HotelStreamManager {
 
-  private Context context;
-  private HotelsService hotelsService;
+    private Context context;
+    private ArrayList<HotelStreamFragment> currentHotelFragments;
+    private int hotelIndex;
 
-  private ArrayList<Hotel> currentStream;
-  private ArrayList<HotelStreamFragment> currentHotelFragments;
-
-  private int hotelIndex;
-
-  public HotelStreamManager(Context c) {
-    context = c;
-    hotelsService = new HotelsService(new Gson());
-    hotelIndex = 0;
-  }
-
-  public void startStream (StreamManagerCallback callback) {
-    currentStream = new ArrayList<>();
-    try {
-      currentStream = (ArrayList<Hotel>) hotelsService.getHotels("sfo", context);
-      callback.streamReady(getHotelFragments(currentStream));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  public HotelStreamFragment getNextFragment() {
-    hotelIndex++;
-    return currentHotelFragments.get(hotelIndex);
-  }
-
-  public ArrayList<HotelStreamFragment> getHotelFragments(ArrayList<Hotel> hotels) {
-    currentHotelFragments = new ArrayList<>();
-
-    for (Hotel hotel : hotels) {
-      HotelStreamFragment hotelFragment = HotelStreamFragment.newInstance(hotel);
-      currentHotelFragments.add(hotelFragment);
+    public HotelStreamManager(Context c) {
+        context = c;
     }
 
-    return currentHotelFragments;
-  }
+    public void startStream (final StreamManagerCallback callback) {
+        HotelService service = HotelService.retrofit.create(HotelService.class);
+        Call<List<Hotel>> call = service.listHotels();
+        call.enqueue(new Callback<List<Hotel>>() {
+            @Override
+            public void onResponse(Call<List<Hotel>> call, Response<List<Hotel>> response) {
+                if (response != null) {
+                    callback.streamReady(getHotelFragments(new ArrayList<>(response.body())));
+                }
+            }
 
+            @Override
+            public void onFailure(Call<List<Hotel>> call, Throwable t) {
+                Toast.makeText(context, "An error occurred, please try again later.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public HotelStreamFragment getNextFragment() {
+        hotelIndex++;
+        return currentHotelFragments.get(hotelIndex);
+    }
+
+    private ArrayList<HotelStreamFragment> getHotelFragments(ArrayList<Hotel> hotels) {
+        currentHotelFragments = new ArrayList<>();
+
+        for (Hotel hotel : hotels) {
+            HotelStreamFragment hotelFragment = HotelStreamFragment.newInstance(hotel);
+            currentHotelFragments.add(hotelFragment);
+        }
+
+        return currentHotelFragments;
+    }
 }
