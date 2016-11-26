@@ -40,6 +40,7 @@
 
     <RelativeLayout
         android:layout_below="@+id/divider"
+        android:id="@+id/suggestion_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -65,5 +66,30 @@
             android:dividerHeight="1dp" />
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:id="@+id/selection_layout" >
+
+        <TextView
+            android:text="@string/flights"
+            android:id="@+id/flights_select"
+            style="@style/search_select_item" />
+
+        <TextView
+            android:text="@string/hotels"
+            android:id="@+id/hotels_select"
+            style="@style/search_select_item" />
+
+        <TextView
+            android:text="@string/packages"
+            android:id="@+id/packages_select"
+            style="@style/search_select_item" />
+
+    </LinearLayout>
 
 </RelativeLayout>
