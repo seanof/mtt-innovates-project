@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -43,10 +45,7 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
       }
     });
 
-    ((Button) findViewById(R.id.like_button)).setOnClickListener(this);
-
     container = (ViewGroup) findViewById(R.id.stream_container);
-
     container.setOnTouchListener(new OnSwipeTouchListener(HotelStreamActivity.this) {
       public void onSwipeRight() {
         goToNextHotel();
@@ -63,9 +62,6 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
       case R.id.begin_btn:
         startActivity(new Intent(this, PresenterActivity.class));
         break;
-      case R.id.like_button:
-//        goToNextHotel();
-        break;
     }
   }
 
@@ -74,4 +70,6 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
     ft.replace(R.id.stream_container, hotelStreamManager.getNextFragment());
     ft.commit();
   }
+
+
 }
