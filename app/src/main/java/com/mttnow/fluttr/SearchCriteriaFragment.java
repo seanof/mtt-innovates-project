@@ -23,8 +23,6 @@ import java.util.Locale;
 
 public class SearchCriteriaFragment extends Fragment implements EditText.OnEditorActionListener, View.OnClickListener {
 
-    private Button clearButton;
-
     private EditText destination;
     private EditText departDate;
     private EditText returnDate;
@@ -55,7 +53,7 @@ public class SearchCriteriaFragment extends Fragment implements EditText.OnEdito
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_presenter, container, false);
 
-        clearButton = (Button) view.findViewById(R.id.clear_button);
+        Button clearButton = (Button) view.findViewById(R.id.clear_button);
         clearButton.setOnClickListener(this);
 
         destination = (EditText) view.findViewById(R.id.destination);
