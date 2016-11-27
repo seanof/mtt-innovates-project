@@ -57,7 +57,7 @@ public class SearchCriteriaFragment extends Fragment implements
     private String paramDestination;
     private String paramDepartDate;
     private String paramReturnDate;
-    private int paramNumTravelers = 0;
+    private int paramNumTravelers = 1;
 
     private static final String[] SUGGESTIONS = {"Paris", "London", "Dublin",
             "New York", "San Francisco"};
@@ -192,11 +192,7 @@ public class SearchCriteriaFragment extends Fragment implements
         numTravelers.requestFocus();
     }
 
-    private void saveParams() {
-        paramDestination = destination.getText().toString().trim().toLowerCase().replace(" ", "");
-        paramDepartDate = departDate.getText().toString().trim();
-        paramReturnDate = returnDate.getText().toString().trim();
-        paramNumTravelers = Integer.parseInt(numTravelers.getText().toString());
+    private void finishInput() {
         suggestionLayout.setVisibility(View.GONE);
         selectionLayout.setVisibility(View.VISIBLE);
 
@@ -241,7 +237,7 @@ public class SearchCriteriaFragment extends Fragment implements
             case R.id.num_travelers:
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     numTravelers.clearFocus();
-                    saveParams();
+                    finishInput();
                     return true;
                 }
         }
@@ -267,24 +263,36 @@ public class SearchCriteriaFragment extends Fragment implements
     }
 
     private void startStream(int stream) {
-        Intent intent = new Intent();
-        intent.putExtra(DESTINATION, paramDestination);
-        intent.putExtra(DEPART, paramDepartDate);
-        intent.putExtra(RETURN, paramReturnDate);
-        intent.putExtra(NUM_TRAVELLERS, paramNumTravelers);
+        if (!destination.getText().toString().equals("")) {
+            paramDestination = destination.getText().toString().trim().toLowerCase().replace(" ", "");
+            paramDepartDate = departDate.getText().toString().trim();
+            paramReturnDate = returnDate.getText().toString().trim();
+            paramNumTravelers = !numTravelers.getText().toString().equals("") ? Integer.parseInt(numTravelers.getText().toString()) : 1;
 
-        switch (stream) {
-            case 0:
-                intent.setClass(getActivity(), HotelStreamActivity.class);
-                break;
-            case 1:
-                intent.setClass(getActivity(), HotelStreamActivity.class);
-                break;
-            case 2:
-                intent.setClass(getActivity(), HotelStreamActivity.class);
-                break;
+            Intent intent = new Intent();
+            intent.putExtra(DESTINATION, paramDestination);
+            intent.putExtra(DEPART, paramDepartDate);
+            intent.putExtra(RETURN, paramReturnDate);
+            intent.putExtra(NUM_TRAVELLERS, paramNumTravelers);
+
+            switch (stream) {
+                case 0:
+                    intent.setClass(getActivity(), HotelStreamActivity.class);
+                    break;
+                case 1:
+                    intent.setClass(getActivity(), HotelStreamActivity.class);
+                    break;
+                case 2:
+                    intent.setClass(getActivity(), HotelStreamActivity.class);
+                    break;
+            }
+
+            startActivity(intent);
         }
 
-        startActivity(intent);
+        else {
+            destination.requestFocus();
+            destination.setError("Please enter a destination.");
+        }
     }
 }
