@@ -10,9 +10,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mttnow.fluttr.domain.hotels.Hotel;
 import com.mttnow.fluttr.listeners.OnSwipeTouchListener;
 import com.mttnow.fluttr.managers.HotelStreamManager;
 import com.mttnow.fluttr.managers.HotelStreamManagerCallback;
+import com.mttnow.fluttr.managers.ProfileManager;
 import com.mttnow.fluttr.service.hotels.HotelStreamFragment;
 
 import java.util.List;
@@ -21,6 +23,7 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
 
   private ViewGroup container;
 
+  private ProfileManager profileManager;
   private HotelStreamManager hotelStreamManager;
   private FragmentTransaction ft;
 
@@ -30,6 +33,8 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
     setContentView(R.layout.activity_hotel_stream);
 
     ft = getSupportFragmentManager().beginTransaction();
+
+    profileManager = new ProfileManager();
 
     hotelStreamManager = new HotelStreamManager(this);
     hotelStreamManager.startStream(new HotelStreamManagerCallback() {
@@ -63,6 +68,8 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
   }
 
   private void goToNextHotel () {
+    profileManager.checkHotelOnLike(hotelStreamManager.getCurrentHotel());
+
     ft = getSupportFragmentManager().beginTransaction();
     ft.replace(R.id.stream_container, hotelStreamManager.getNextFragment());
     ft.commit();
