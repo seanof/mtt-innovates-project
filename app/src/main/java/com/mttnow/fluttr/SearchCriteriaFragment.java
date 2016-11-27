@@ -2,6 +2,7 @@ package com.mttnow.fluttr;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
@@ -24,8 +25,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+/**
+ * Created by seanof on 21/11/2016.
+ */
+
 public class SearchCriteriaFragment extends Fragment implements
         EditText.OnEditorActionListener, View.OnClickListener {
+
+    private static final String DESTINATION = "destination";
+    private static final String DEPART = "depart";
+    private static final String RETURN = "return";
+    private static final String NUM_TRAVELLERS = "numTravellers";
 
     private EditText destination;
     private EditText departDate;
@@ -70,6 +80,14 @@ public class SearchCriteriaFragment extends Fragment implements
 
         departDateText = (TextView) view.findViewById(R.id.travel_date_text);
         returnDateText = (TextView) view.findViewById(R.id.travel_date_text_return);
+
+        TextView flightsSelect = (TextView) view.findViewById(R.id.flights_select);
+        TextView hotelsSelect = (TextView) view.findViewById(R.id.hotels_select);
+        TextView packagesSelect = (TextView) view.findViewById(R.id.packages_select);
+        flightsSelect.setOnClickListener(this);
+        hotelsSelect.setOnClickListener(this);
+        packagesSelect.setOnClickListener(this);
+
         numTravelersLayout = (LinearLayout) view.findViewById(R.id.num_travelers_parent);
 
         suggestionLayout = (RelativeLayout) view.findViewById(R.id.suggestion_layout);
@@ -237,11 +255,36 @@ public class SearchCriteriaFragment extends Fragment implements
                 clearAllFields();
                 break;
             case R.id.flights_select:
+                startStream(0);
                 break;
             case R.id.hotels_select:
+                startStream(1);
                 break;
             case R.id.packages_select:
+                startStream(2);
                 break;
         }
+    }
+
+    private void startStream(int stream) {
+        Intent intent = new Intent();
+        intent.putExtra(DESTINATION, paramDestination);
+        intent.putExtra(DEPART, paramDepartDate);
+        intent.putExtra(RETURN, paramReturnDate);
+        intent.putExtra(NUM_TRAVELLERS, paramNumTravelers);
+
+        switch (stream) {
+            case 0:
+                intent.setClass(getActivity(), HotelStreamActivity.class);
+                break;
+            case 1:
+                intent.setClass(getActivity(), HotelStreamActivity.class);
+                break;
+            case 2:
+                intent.setClass(getActivity(), HotelStreamActivity.class);
+                break;
+        }
+
+        startActivity(intent);
     }
 }

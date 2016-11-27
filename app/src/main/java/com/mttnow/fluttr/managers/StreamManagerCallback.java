@@ -6,6 +6,6 @@ import java.util.List;
  * Created by seanb on 23/11/2016.
  */
 
-public interface StreamManagerCallback <T> {
+interface StreamManagerCallback <T> {
   void streamReady(List<T> res);
 }

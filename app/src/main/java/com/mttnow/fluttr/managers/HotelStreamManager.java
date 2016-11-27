@@ -3,7 +3,8 @@ package com.mttnow.fluttr.managers;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.mttnow.fluttr.api.HotelService;
+import com.mttnow.fluttr.api.BaseRetrofit;
+import com.mttnow.fluttr.service.hotels.HotelsService;
 import com.mttnow.fluttr.domain.hotels.Hotel;
 import com.mttnow.fluttr.service.hotels.HotelStreamFragment;
 
@@ -25,13 +26,13 @@ public class HotelStreamManager {
         context = c;
     }
 
-    public void startStream (final StreamManagerCallback callback) {
-        HotelService service = HotelService.retrofit.create(HotelService.class);
+    public void startStream (final StreamManagerCallback<HotelStreamFragment> callback) {
+        HotelsService service = BaseRetrofit.retrofit.create(HotelsService.class);
         Call<List<Hotel>> call = service.listHotels();
         call.enqueue(new Callback<List<Hotel>>() {
             @Override
             public void onResponse(Call<List<Hotel>> call, Response<List<Hotel>> response) {
-                if (response != null) {
+                if (response != null && response.body() != null) {
                     currentHotelStream = response.body();
                     callback.streamReady(getHotelFragments(new ArrayList<>(response.body())));
                 }
@@ -39,6 +40,7 @@ public class HotelStreamManager {
 
             @Override
             public void onFailure(Call<List<Hotel>> call, Throwable t) {
+                t.printStackTrace();
                 Toast.makeText(context, "An error occurred, please try again later.", Toast.LENGTH_SHORT).show();
             }
         });

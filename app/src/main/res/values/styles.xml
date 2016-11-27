@@ -55,7 +55,6 @@
 
     <style name="search_select_item" parent="baseFontFamily">
         <item name="android:textSize">22sp</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_marginTop">10dp</item>
