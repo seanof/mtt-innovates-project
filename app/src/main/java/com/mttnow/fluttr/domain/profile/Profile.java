@@ -1,5 +1,6 @@
 package com.mttnow.fluttr.domain.profile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,6 +10,10 @@ import java.util.List;
 public class Profile {
 
   List<PreferenceKey> hotelPreferenceKeys;
+
+  public Profile () {
+    hotelPreferenceKeys = new ArrayList<>();
+  }
 
   public int getHotelKeyIndex(String key) {
     for(int i = 0; i < hotelPreferenceKeys.size(); i++) {
