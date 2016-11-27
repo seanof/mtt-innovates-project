@@ -22,7 +22,7 @@
             android:theme="@style/AppTheme.NoTitle">
         </activity>
         <activity
-            android:name=".PresenterActivity"
+            android:name=".SearchActivity"
             android:theme="@style/AppTheme.NoTitle">
         </activity>
     </application>

@@ -6,11 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.mttnow.fluttr.managers.HotelStreamManager;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
-    HotelStreamManager hotelStreamManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,20 +15,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button search = (Button) findViewById(R.id.search_btn);
         search.setOnClickListener(this);
-        Button begin = (Button) findViewById(R.id.begin_btn);
-        begin.setOnClickListener(this);
-
-        hotelStreamManager = new HotelStreamManager(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.search_btn:
-                startActivity(new Intent(this, PresenterActivity.class));
-                break;
-            case R.id.begin_btn:
-                startActivity(new Intent(this, HotelStreamActivity.class));
+                startActivity(new Intent(this, SearchActivity.class));
                 break;
         }
     }

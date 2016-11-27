@@ -7,6 +7,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * Created by seanof on 26/11/2016.
@@ -15,5 +16,5 @@ import retrofit2.http.GET;
 public interface HotelsService {
 
     @GET("/hotels")
-    Call<List<Hotel>> listHotels();
+    Call<List<Hotel>> listHotels(@Query("destination") String destination);
 }

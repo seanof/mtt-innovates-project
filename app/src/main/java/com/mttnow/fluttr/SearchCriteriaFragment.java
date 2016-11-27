@@ -193,7 +193,7 @@ public class SearchCriteriaFragment extends Fragment implements
     }
 
     private void saveParams() {
-        paramDestination = destination.getText().toString().trim().toLowerCase();
+        paramDestination = destination.getText().toString().trim().toLowerCase().replace(" ", "");
         paramDepartDate = departDate.getText().toString().trim();
         paramReturnDate = returnDate.getText().toString().trim();
         paramNumTravelers = Integer.parseInt(numTravelers.getText().toString());

@@ -4,9 +4,9 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.mttnow.fluttr.api.BaseRetrofit;
-import com.mttnow.fluttr.service.hotels.HotelsService;
 import com.mttnow.fluttr.domain.hotels.Hotel;
 import com.mttnow.fluttr.service.hotels.HotelStreamFragment;
+import com.mttnow.fluttr.service.hotels.HotelsService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,28 +22,33 @@ public class HotelStreamManager {
     private ArrayList<HotelStreamFragment> currentHotelFragments;
     private int hotelIndex;
 
-    public HotelStreamManager(Context c) {
-        context = c;
+    private String destination;
+
+    public HotelStreamManager(Context c, String destination) {
+        this.context = c;
+        this.destination = destination;
     }
 
     public void startStream (final StreamManagerCallback<HotelStreamFragment> callback) {
-        HotelsService service = BaseRetrofit.retrofit.create(HotelsService.class);
-        Call<List<Hotel>> call = service.listHotels();
-        call.enqueue(new Callback<List<Hotel>>() {
-            @Override
-            public void onResponse(Call<List<Hotel>> call, Response<List<Hotel>> response) {
-                if (response != null && response.body() != null) {
-                    currentHotelStream = response.body();
-                    callback.streamReady(getHotelFragments(new ArrayList<>(response.body())));
+        if (destination != null) {
+            HotelsService service = BaseRetrofit.retrofit.create(HotelsService.class);
+            Call<List<Hotel>> call = service.listHotels(destination);
+            call.enqueue(new Callback<List<Hotel>>() {
+                @Override
+                public void onResponse(Call<List<Hotel>> call, Response<List<Hotel>> response) {
+                    if (response != null && response.body() != null) {
+                        currentHotelStream = response.body();
+                        callback.streamReady(getHotelFragments(new ArrayList<>(response.body())));
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<List<Hotel>> call, Throwable t) {
-                t.printStackTrace();
-                Toast.makeText(context, "An error occurred, please try again later.", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<List<Hotel>> call, Throwable t) {
+                    t.printStackTrace();
+                    Toast.makeText(context, "An error occurred, please try again later.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     public Hotel getCurrentHotel () {

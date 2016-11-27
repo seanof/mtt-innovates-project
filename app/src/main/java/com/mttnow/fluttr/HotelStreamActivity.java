@@ -5,12 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mttnow.fluttr.domain.hotels.Hotel;
 import com.mttnow.fluttr.listeners.OnSwipeTouchListener;
 import com.mttnow.fluttr.managers.HotelStreamManager;
 import com.mttnow.fluttr.managers.HotelStreamManagerCallback;
@@ -21,22 +18,38 @@ import java.util.List;
 
 public class HotelStreamActivity extends AppCompatActivity implements View.OnClickListener {
 
+  private static final String DESTINATION = "destination";
+  private static final String DEPART = "depart";
+  private static final String RETURN = "return";
+  private static final String NUM_TRAVELLERS = "numTravellers";
+
   private ViewGroup container;
 
   private ProfileManager profileManager;
   private HotelStreamManager hotelStreamManager;
   private FragmentTransaction ft;
 
+  private String destination;
+  private String departDate;
+  private String returnDate;
+  private String numTravellers;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_hotel_stream);
 
+    Bundle extras = getIntent().getExtras();
+    destination = extras.getString(DESTINATION);
+    departDate = extras.getString(DEPART);
+    returnDate = extras.getString(RETURN);
+    numTravellers = extras.getString(NUM_TRAVELLERS);
+
     ft = getSupportFragmentManager().beginTransaction();
 
     profileManager = new ProfileManager();
 
-    hotelStreamManager = new HotelStreamManager(this);
+    hotelStreamManager = new HotelStreamManager(this, destination);
     hotelStreamManager.startStream(new HotelStreamManagerCallback() {
       @Override
       public void streamReady(List<HotelStreamFragment> results) {
@@ -61,8 +74,8 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
   @Override
   public void onClick(View view) {
     switch (view.getId()) {
-      case R.id.begin_btn:
-        startActivity(new Intent(this, PresenterActivity.class));
+      case R.id.search_btn:
+        startActivity(new Intent(this, SearchActivity.class));
         break;
     }
   }
