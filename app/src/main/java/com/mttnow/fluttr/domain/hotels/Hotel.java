@@ -11,6 +11,7 @@ public class Hotel implements Serializable {
 
   private HotelInfo retailHotelInfoModel;
   private HotelPricing retailHotelPricingModel;
+
   private List<String> preferenceKeys;
 
   public String getHotelName() {
@@ -19,6 +20,14 @@ public class Hotel implements Serializable {
 
   public String getHotelImage() {
     return retailHotelInfoModel.getImageUrl();
+  }
+
+  public List<String> getPreferenceKeys() {
+    return preferenceKeys;
+  }
+
+  public void setPreferenceKeys(List<String> preferenceKeys) {
+    this.preferenceKeys = preferenceKeys;
   }
 
 }

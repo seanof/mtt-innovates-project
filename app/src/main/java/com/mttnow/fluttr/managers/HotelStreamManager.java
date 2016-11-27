@@ -17,6 +17,7 @@ import retrofit2.Response;
 public class HotelStreamManager {
 
     private Context context;
+    private List<Hotel> currentHotelStream;
     private ArrayList<HotelStreamFragment> currentHotelFragments;
     private int hotelIndex;
 
@@ -31,6 +32,7 @@ public class HotelStreamManager {
             @Override
             public void onResponse(Call<List<Hotel>> call, Response<List<Hotel>> response) {
                 if (response != null) {
+                    currentHotelStream = response.body();
                     callback.streamReady(getHotelFragments(new ArrayList<>(response.body())));
                 }
             }
@@ -40,6 +42,10 @@ public class HotelStreamManager {
                 Toast.makeText(context, "An error occurred, please try again later.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public Hotel getCurrentHotel () {
+        return currentHotelStream.get(hotelIndex);
     }
 
     public HotelStreamFragment getNextFragment() {

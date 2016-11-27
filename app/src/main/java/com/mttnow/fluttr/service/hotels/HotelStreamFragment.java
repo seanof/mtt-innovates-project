@@ -14,6 +14,8 @@ import com.mttnow.fluttr.R;
 import com.mttnow.fluttr.domain.hotels.Hotel;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 public class HotelStreamFragment extends Fragment {
   // TODO: Rename parameter arguments, choose names that match
   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,6 +53,20 @@ public class HotelStreamFragment extends Fragment {
 
     name.setText(hotel.getHotelName());
     Picasso.with(getContext()).load("https:" + hotel.getHotelImage()).into(image);
+
+    String outputKeys = "";
+    TextView keys = (TextView) v.findViewById(R.id.hotel_keys);
+    for(String key : hotel.getPreferenceKeys()) {
+      outputKeys += key + "\n";
+    }
+    keys.setText(outputKeys);
+
+//    outputKeys = "";
+//    TextView profileKeys = (TextView) v.findViewById(R.id.profile_keys);
+//    for(String key : hotel.getPreferenceKeys()) {
+//      outputKeys += key + "\n";
+//    }
+//    profileKeys.setText(outputKeys);
 
     return v;
   }

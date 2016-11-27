@@ -1,7 +1,6 @@
 package com.mttnow.fluttr.listeners;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
@@ -12,7 +11,7 @@ import android.view.View.OnTouchListener;
  * Created by seanb on 26/11/2016.
  */
 
-public abstract class OnSwipeTouchListener implements OnTouchListener {
+public class OnSwipeTouchListener implements OnTouchListener {
 
   private final GestureDetector gestureDetector;
 

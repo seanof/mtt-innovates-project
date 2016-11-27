@@ -21,16 +21,13 @@ public class Profile {
     return -1;
   }
 
-  public void addHotelKey (String key) {
-    int hotelPrefIndex = getHotelKeyIndex(key);
-    if (hotelPrefIndex > -1) {
-      hotelPreferenceKeys.get(hotelPrefIndex).incrementValue();
-    } else {
-      PreferenceKey newKey = new PreferenceKey();
-      newKey.setKey(key);
-      newKey.setValue(1);
-      hotelPreferenceKeys.add(newKey);
-    }
+  public List<PreferenceKey> getHotelPreferenceKeys() {
+    return hotelPreferenceKeys;
   }
+
+  public void setHotelPreferenceKeys(List<PreferenceKey> hotelPreferenceKeys) {
+    this.hotelPreferenceKeys = hotelPreferenceKeys;
+  }
+
 
 }
