@@ -116,6 +116,9 @@ public class SearchCriteriaFragment extends Fragment implements
     private void promptDestinationInput() {
         destination.setOnEditorActionListener(this);
         destination.requestFocus();
+        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(
+          Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(destination, InputMethodManager.SHOW_IMPLICIT);
     }
 
     private void promptTravelDate(EditText editText) {

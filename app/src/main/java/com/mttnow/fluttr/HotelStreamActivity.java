@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.mttnow.fluttr.listeners.OnSwipeTouchListener;
 import com.mttnow.fluttr.managers.HotelStreamManager;
@@ -24,6 +26,7 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
   private static final String NUM_TRAVELLERS = "numTravellers";
 
   private ViewGroup container;
+  private TextView position;
 
   private ProfileManager profileManager;
   private HotelStreamManager hotelStreamManager;
@@ -60,6 +63,8 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
       }
     });
 
+    position = (TextView) findViewById(R.id.position);
+
     container = (ViewGroup) findViewById(R.id.stream_container);
     container.setOnTouchListener(new OnSwipeTouchListener(HotelStreamActivity.this) {
       public void onSwipeRight() {
@@ -78,6 +83,34 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
         startActivity(new Intent(this, SearchActivity.class));
         break;
     }
+  }
+
+  float startDownX, startDownY;
+  float distX, distY;
+
+  @Override
+  public boolean onTouchEvent(MotionEvent event) {
+    int action = event.getActionMasked();
+
+    switch(action) {
+      case MotionEvent.ACTION_DOWN:
+        startDownX = event.getX();
+        startDownY = event.getY();
+        break;
+      case MotionEvent.ACTION_MOVE:
+        distX = event.getX() - startDownX;
+        distY = event.getY() - startDownY;
+        break;
+      case MotionEvent.ACTION_UP:
+        distX = 0;
+        distY = 0;
+        startDownX = 0;
+        startDownY = 0;
+        break;
+    }
+
+    position.setText(distX + ", " + distY);
+    return true;
   }
 
   private void goToNextHotel () {

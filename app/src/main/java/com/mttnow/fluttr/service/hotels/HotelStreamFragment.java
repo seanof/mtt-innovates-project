@@ -1,6 +1,7 @@
 package com.mttnow.fluttr.service.hotels;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -54,19 +55,21 @@ public class HotelStreamFragment extends Fragment {
     name.setText(hotel.getHotelName());
     Picasso.with(getContext()).load("https:" + hotel.getHotelImage()).into(image);
 
-    String outputKeys = "";
-    TextView keys = (TextView) v.findViewById(R.id.hotel_keys);
+    ViewGroup leftCol = (ViewGroup) v.findViewById(R.id.hotel_keys_left_col);
+    ViewGroup rightCol = (ViewGroup) v.findViewById(R.id.hotel_keys_right_col);
+    int i = 0;
     for(String key : hotel.getPreferenceKeys()) {
-      outputKeys += key + "\n";
+      TextView txt1 = new TextView(getContext());
+      txt1.setText(key);
+      if (i%2 == 0) {
+        txt1.setTextAppearance(getContext(), R.style.stream_key_item);
+        leftCol.addView(txt1);
+      } else {
+        txt1.setTextAppearance(getContext(), R.style.stream_key_item_right);
+        rightCol.addView(txt1);
+      }
+      i++;
     }
-    keys.setText(outputKeys);
-
-//    outputKeys = "";
-//    TextView profileKeys = (TextView) v.findViewById(R.id.profile_keys);
-//    for(String key : hotel.getPreferenceKeys()) {
-//      outputKeys += key + "\n";
-//    }
-//    profileKeys.setText(outputKeys);
 
     return v;
   }

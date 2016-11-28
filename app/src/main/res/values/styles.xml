@@ -49,7 +49,7 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">32sp</item>
-        <item name="android:lineSpacingMultiplier">0.75</item>
+        <item name="android:lineSpacingMultiplier">0.85</item>
         <item name="android:textAlignment">center</item>
     </style>
 
@@ -63,6 +63,13 @@
         <item name="android:background">@drawable/textview_rounded_background</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="stream_key_item" parent="baseFontFamily">
+        <item name="android:textSize">24dp</item>
+    </style>
+    <style name="stream_key_item_right" parent="stream_key_item">
+        <item name="android:gravity">right</item>
     </style>
 
 </resources>
