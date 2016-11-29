@@ -56,19 +56,12 @@ public class HotelStreamFragment extends Fragment {
     Picasso.with(getContext()).load("https:" + hotel.getHotelImage()).into(image);
 
     ViewGroup leftCol = (ViewGroup) v.findViewById(R.id.hotel_keys_left_col);
-    ViewGroup rightCol = (ViewGroup) v.findViewById(R.id.hotel_keys_right_col);
-    int i = 0;
+
     for(String key : hotel.getPreferenceKeys()) {
-      TextView txt1 = new TextView(getContext());
+      ViewGroup tagView = (ViewGroup) inflater.inflate(R.layout.key_tag_view, leftCol, false);
+      TextView txt1 = (TextView) tagView.findViewById(R.id.tag_text);
       txt1.setText(key);
-      if (i%2 == 0) {
-        txt1.setTextAppearance(getContext(), R.style.stream_key_item);
-        leftCol.addView(txt1);
-      } else {
-        txt1.setTextAppearance(getContext(), R.style.stream_key_item_right);
-        rightCol.addView(txt1);
-      }
-      i++;
+      leftCol.addView(tagView);
     }
 
     return v;
