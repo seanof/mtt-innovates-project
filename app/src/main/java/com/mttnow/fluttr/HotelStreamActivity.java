@@ -67,6 +67,31 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
 
     container = (ViewGroup) findViewById(R.id.stream_container);
     container.setOnTouchListener(new OnSwipeTouchListener(HotelStreamActivity.this) {
+      @Override
+      public boolean onTouch(View v, MotionEvent event) {
+        super.onTouch(v, event);
+        int action = event.getActionMasked();
+
+        switch(action) {
+          case MotionEvent.ACTION_DOWN:
+            startDownX = event.getX();
+            startDownY = event.getY();
+            break;
+          case MotionEvent.ACTION_MOVE:
+            distX = event.getX() - startDownX;
+            distY = event.getY() - startDownY;
+            break;
+          case MotionEvent.ACTION_UP:
+            distX = 0;
+            distY = 0;
+            startDownX = 0;
+            startDownY = 0;
+            break;
+        }
+
+        position.setText(distX + ", " + distY);
+        return true;
+      }
       public void onSwipeRight() {
         goToNextHotel();
       }
@@ -88,30 +113,7 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
   float startDownX, startDownY;
   float distX, distY;
 
-  @Override
-  public boolean onTouchEvent(MotionEvent event) {
-    int action = event.getActionMasked();
 
-    switch(action) {
-      case MotionEvent.ACTION_DOWN:
-        startDownX = event.getX();
-        startDownY = event.getY();
-        break;
-      case MotionEvent.ACTION_MOVE:
-        distX = event.getX() - startDownX;
-        distY = event.getY() - startDownY;
-        break;
-      case MotionEvent.ACTION_UP:
-        distX = 0;
-        distY = 0;
-        startDownX = 0;
-        startDownY = 0;
-        break;
-    }
-
-    position.setText(distX + ", " + distY);
-    return true;
-  }
 
   private void goToNextHotel () {
     profileManager.checkHotelOnLike(hotelStreamManager.getCurrentHotel());

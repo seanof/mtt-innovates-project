@@ -31,7 +31,7 @@ public class OnSwipeTouchListener implements OnTouchListener {
 
     @Override
     public boolean onDown(MotionEvent e) {
-      return false;
+      return true;
     }
 
     @Override
