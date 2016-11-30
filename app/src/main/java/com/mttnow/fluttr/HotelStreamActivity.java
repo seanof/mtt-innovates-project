@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.mttnow.fluttr.listeners.OnSwipeTouchListener;
 import com.mttnow.fluttr.managers.HotelStreamManager;
 import com.mttnow.fluttr.managers.HotelStreamManagerCallback;
@@ -33,6 +34,7 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
   private static final String NUM_TRAVELLERS = "numTravellers";
 
   private FirebaseAuth firebaseAuth;
+  private FirebaseAuth.AuthStateListener mAuthListener;
 
   private ViewGroup container;
   private TextView position;
@@ -44,36 +46,54 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
   private String destination;
   private String departDate;
   private String returnDate;
-  private String numTravellers;
+  private int numTravellers;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_hotel_stream);
 
-    firebaseAuth = FirebaseAuth.getInstance();
-    firebaseAuth.signInAnonymously()
-      .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-        @Override
-        public void onComplete(@NonNull Task<AuthResult> task) {
-          Log.d("", "signIn:onComplete:" + task.isSuccessful());
-          if (task.isSuccessful()) {
-            profileManager = new ProfileManager(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-            Toast.makeText(HotelStreamActivity.this, "Success",
-              Toast.LENGTH_SHORT).show();
-          } else {
-            Toast.makeText(HotelStreamActivity.this, "Sign In Failed",
-              Toast.LENGTH_SHORT).show();
-          }
+    mAuthListener = new FirebaseAuth.AuthStateListener() {
+      @Override
+      public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+          // User is signed in
+          Log.d("APP", "onAuthStateChanged:signed_in:" + user.getUid());
+        } else {
+          // User is signed out
+          Log.d("APP", "onAuthStateChanged:signed_out");
         }
-      });
+        // ...
+      }
+    };
+
+
+    firebaseAuth = FirebaseAuth.getInstance();
+    firebaseAuth.signInWithEmailAndPassword("sean.bolger@mttnow.com", "test1234")
+            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+              @Override
+              public void onComplete(@NonNull Task<AuthResult> task) {
+                Log.d("APP", "signInWithEmail:onComplete:" + task.isSuccessful());
+
+                // If sign in fails, display a message to the user. If sign in succeeds
+                // the auth state listener will be notified and logic to handle the
+                // signed in user can be handled in the listener.
+                if (!task.isSuccessful()) {
+                  Log.w("APP", "signInWithEmail:failed", task.getException());
+                  Toast.makeText(HotelStreamActivity.this, "Auth failed!",
+                          Toast.LENGTH_SHORT).show();
+                }
+
+                // ...
+              }
+            });
 
     Bundle extras = getIntent().getExtras();
     destination = extras.getString(DESTINATION);
     departDate = extras.getString(DEPART);
     returnDate = extras.getString(RETURN);
-    numTravellers = extras.getString(NUM_TRAVELLERS);
+    numTravellers = extras.getInt(NUM_TRAVELLERS);
 
     ft = getSupportFragmentManager().beginTransaction();
 
@@ -148,6 +168,21 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
     ft = getSupportFragmentManager().beginTransaction();
     ft.replace(R.id.stream_container, hotelStreamManager.getNextFragment());
     ft.commit();
+  }
+
+
+  @Override
+  public void onStart() {
+    super.onStart();
+    firebaseAuth.addAuthStateListener(mAuthListener);
+  }
+
+  @Override
+  public void onStop() {
+    super.onStop();
+    if (mAuthListener != null) {
+      firebaseAuth.removeAuthStateListener(mAuthListener);
+    }
   }
 
 
