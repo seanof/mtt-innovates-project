@@ -2,14 +2,21 @@ package com.mttnow.fluttr;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.mttnow.fluttr.listeners.OnSwipeTouchListener;
 import com.mttnow.fluttr.managers.HotelStreamManager;
 import com.mttnow.fluttr.managers.HotelStreamManagerCallback;
@@ -24,6 +31,8 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
   private static final String DEPART = "depart";
   private static final String RETURN = "return";
   private static final String NUM_TRAVELLERS = "numTravellers";
+
+  private FirebaseAuth firebaseAuth;
 
   private ViewGroup container;
   private TextView position;
@@ -42,6 +51,24 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_hotel_stream);
 
+    firebaseAuth = FirebaseAuth.getInstance();
+    firebaseAuth.signInAnonymously()
+      .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        @Override
+        public void onComplete(@NonNull Task<AuthResult> task) {
+          Log.d("", "signIn:onComplete:" + task.isSuccessful());
+          if (task.isSuccessful()) {
+            profileManager = new ProfileManager(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+            Toast.makeText(HotelStreamActivity.this, "Success",
+              Toast.LENGTH_SHORT).show();
+          } else {
+            Toast.makeText(HotelStreamActivity.this, "Sign In Failed",
+              Toast.LENGTH_SHORT).show();
+          }
+        }
+      });
+
     Bundle extras = getIntent().getExtras();
     destination = extras.getString(DESTINATION);
     departDate = extras.getString(DEPART);
@@ -50,7 +77,7 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
 
     ft = getSupportFragmentManager().beginTransaction();
 
-    profileManager = new ProfileManager();
+
 
     hotelStreamManager = new HotelStreamManager(this, destination);
     hotelStreamManager.startStream(new HotelStreamManagerCallback() {
