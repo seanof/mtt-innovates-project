@@ -1,19 +1,10 @@
 package com.mttnow.fluttr.managers;
 
-import android.support.annotation.NonNull;
-import android.util.Log;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.mttnow.fluttr.domain.hotels.Hotel;
 import com.mttnow.fluttr.domain.profile.PreferenceKey;
 import com.mttnow.fluttr.domain.profile.Profile;
@@ -28,43 +19,36 @@ public class ProfileManager {
 
   private DatabaseReference databaseRef;
 
+  private String uid;
+
 
   public ProfileManager(String uid) {
-    profile = new Profile();
+    this.profile = new Profile();
+    this.databaseRef = FirebaseDatabase.getInstance().getReference();
+    this.uid = uid;
+    getProfile(uid);
+  }
 
-    databaseRef = FirebaseDatabase.getInstance().getReference();
-    Query res = databaseRef.child("users").child(uid);
-    res.addChildEventListener(new ChildEventListener() {
+  // [START basic_write]
+  public void writeProfile() {
+    databaseRef.child("users").child(uid).setValue(profile);
+  }
+
+  public void getProfile(String userId) {
+    databaseRef.child("users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
       @Override
-      public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
-        snapshot.getValue();
-      }
-
-      @Override
-      public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-      }
-
-      @Override
-      public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-      }
-
-      @Override
-      public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        profile = dataSnapshot.getValue(Profile.class);
+        if (profile == null) {
+          profile = new Profile();
+          writeProfile();
+        }
       }
 
       @Override
       public void onCancelled(DatabaseError databaseError) {
-
       }
     });
-  }
-
-  // [START basic_write]
-  private void writeNewUser(String userId, Profile profile) {
-    databaseRef.child("users").child(userId).setValue(profile);
   }
   // [END basic_write]
 
@@ -73,6 +57,7 @@ public class ProfileManager {
     for (String string : hotel.getPreferenceKeys()) {
       addHotelKey(string);
     }
+    writeProfile();
   }
 
   private void addHotelKey (String key) {
