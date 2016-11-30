@@ -53,41 +53,23 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_hotel_stream);
 
+    firebaseAuth = FirebaseAuth.getInstance();
     mAuthListener = new FirebaseAuth.AuthStateListener() {
       @Override
       public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null) {
           // User is signed in
-          Log.d("APP", "onAuthStateChanged:signed_in:" + user.getUid());
+          Log.d("Fluttr", "onAuthStateChanged:signed_in:" + user.getUid());
         } else {
           // User is signed out
-          Log.d("APP", "onAuthStateChanged:signed_out");
+          Log.d("Fluttr", "onAuthStateChanged:signed_out");
         }
         // ...
       }
     };
 
-
-    firebaseAuth = FirebaseAuth.getInstance();
-    firebaseAuth.signInWithEmailAndPassword("sean.bolger@mttnow.com", "test1234")
-            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-              @Override
-              public void onComplete(@NonNull Task<AuthResult> task) {
-                Log.d("APP", "signInWithEmail:onComplete:" + task.isSuccessful());
-
-                // If sign in fails, display a message to the user. If sign in succeeds
-                // the auth state listener will be notified and logic to handle the
-                // signed in user can be handled in the listener.
-                if (!task.isSuccessful()) {
-                  Log.w("APP", "signInWithEmail:failed", task.getException());
-                  Toast.makeText(HotelStreamActivity.this, "Auth failed!",
-                          Toast.LENGTH_SHORT).show();
-                }
-
-                // ...
-              }
-            });
+    userSignIn("sean.bolger@mttnow.com", "test1234");
 
     Bundle extras = getIntent().getExtras();
     destination = extras.getString(DESTINATION);
@@ -96,8 +78,6 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
     numTravellers = extras.getInt(NUM_TRAVELLERS);
 
     ft = getSupportFragmentManager().beginTransaction();
-
-
 
     hotelStreamManager = new HotelStreamManager(this, destination);
     hotelStreamManager.startStream(new HotelStreamManagerCallback() {
@@ -146,6 +126,27 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
         goToNextHotel();
       }
     });
+  }
+
+  private void userSignIn(String email, String password) {
+    firebaseAuth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+              @Override
+              public void onComplete(@NonNull Task<AuthResult> task) {
+                Log.d("FLUTTR", "signInWithEmail:onComplete:" + task.isSuccessful());
+
+                // If sign in fails, display a message to the user. If sign in succeeds
+                // the auth state listener will be notified and logic to handle the
+                // signed in user can be handled in the listener.
+                if (!task.isSuccessful()) {
+                  Log.w("FLUTTR", "signInWithEmail:failed", task.getException());
+                  Toast.makeText(HotelStreamActivity.this, "Authentication failed. Please check your email and password.",
+                          Toast.LENGTH_SHORT).show();
+                }
+
+                // ...
+              }
+            });
   }
 
   @Override
