@@ -13,6 +13,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -46,10 +51,15 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
   private String returnDate;
   private int numTravellers;
 
+  InterstitialAd mInterstitialAd;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
     setContentView(R.layout.activity_hotel_stream);
+
+    MobileAds.initialize(getApplicationContext(), getString(R.string.ads_app_id));
 
     userSignIn("sean.bolger@mttnow.com", "test1234");
 
@@ -62,6 +72,7 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
     ft = getSupportFragmentManager().beginTransaction();
 
     hotelStreamManager = new HotelStreamManager(this, destination);
+
     hotelStreamManager.startStream(new HotelStreamManagerCallback() {
       @Override
       public void streamReady(List<HotelStreamFragment> results) {
@@ -108,6 +119,26 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
         goToNextHotel();
       }
     });
+
+    mInterstitialAd = new InterstitialAd(this);
+    mInterstitialAd.setAdUnitId(getString(R.string.hotel_interstitial_ad));
+
+    mInterstitialAd.setAdListener(new AdListener() {
+      @Override
+      public void onAdClosed() {
+        requestNewInterstitial();
+      }
+    });
+
+    requestNewInterstitial();
+
+  }
+
+  private void requestNewInterstitial() {
+    AdRequest adRequest = new AdRequest.Builder()
+      .build();
+
+    mInterstitialAd.loadAd(adRequest);
   }
 
   private void userSignIn(String email, String password) {
@@ -149,6 +180,9 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
 
 
   private void goToNextHotel () {
+    if (mInterstitialAd.isLoaded()) {
+      mInterstitialAd.show();
+    }
     profileManager.checkHotelOnLike(hotelStreamManager.getCurrentHotel());
 
     ft = getSupportFragmentManager().beginTransaction();
