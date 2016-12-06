@@ -1,10 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             xmlns:ads="http://schemas.android.com/apk/res-auto"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.mttnow.fluttr.service.hotels.HotelStreamFragment">
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mttnow.fluttr.service.hotels.HotelStreamFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -69,6 +68,30 @@
             android:orientation="horizontal"
             android:layout_gravity="center_horizontal">
         </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:background="@drawable/tab_background_rounded"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="25dp"
+                android:padding="@dimen/button_rounded_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:background="@drawable/tab_background_rounded"
+                android:src="@android:drawable/ic_input_add"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="25dp"
+                android:padding="@dimen/button_rounded_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 
