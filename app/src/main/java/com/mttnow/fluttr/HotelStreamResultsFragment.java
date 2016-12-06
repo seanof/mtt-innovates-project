@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
@@ -37,7 +38,8 @@ public class HotelStreamResultsFragment extends Fragment implements View.OnClick
 
     ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_hotel_stream, container, false);
 
-
+    ListView hotelResultList = (ListView) v.findViewById(R.id.results_list);
+    hotelResultList.setAdapter(new HotelResultAdapter(likedHotels));
 
     return v;
   }
