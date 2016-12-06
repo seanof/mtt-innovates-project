@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,8 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
   private ViewGroup container;
   private TextView position;
   private ProgressBar progressBar;
+  private View dislike;
+  private View like;
 
   private ProfileManager profileManager;
   private HotelStreamManager hotelStreamManager;
@@ -73,6 +76,11 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
     numTravellers = extras.getInt(NUM_TRAVELLERS);
 
     progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+    like = findViewById(R.id.like_button);
+    dislike = findViewById(R.id.dislike_button);
+    like.setOnClickListener(this);
+    dislike.setOnClickListener(this);
 
     interstitialAd = new InterstitialAd(this);
     interstitialAd.setAdUnitId(getString(R.string.hotel_interstitial_ad));
@@ -223,6 +231,12 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
     switch (view.getId()) {
       case R.id.search_btn:
         startActivity(new Intent(this, SearchActivity.class));
+        break;
+      case R.id.like_button:
+        hotelStreamManager.likeCurrentHotel();
+        break;
+      case R.id.dislike_button:
+        goToNextHotel();
         break;
     }
   }
