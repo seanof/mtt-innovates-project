@@ -19,14 +19,12 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mttnow.fluttr.listeners.OnSwipeTouchListener;
 import com.mttnow.fluttr.managers.HotelStreamManager;
 import com.mttnow.fluttr.managers.HotelStreamManagerCallback;
 import com.mttnow.fluttr.managers.ProfileManager;
-import com.mttnow.fluttr.service.hotels.HotelStreamFragment;
 
 import java.util.List;
 
@@ -117,6 +115,8 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
         goToNextHotel();
       }
       public void onSwipeLeft() {
+        //Like
+        hotelStreamManager.likeCurrentHotel();
         goToNextHotel();
       }
     });
@@ -180,14 +180,28 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
 
   private void goToNextHotel () {
 
-    if (hotelStreamManager.getHotelIndex() % INTERSTITIAL_LOAD_THRESHOLD == 0 && hotelStreamManager.getHotelIndex() != 0 && interstitialAd.isLoaded()) {
-      interstitialAd.show();
+    if (hotelStreamManager.isEndOfStream()) {
+
+      HotelStreamResultsFragment hotelStreamResultsFragment = new HotelStreamResultsFragment();
+      hotelStreamResultsFragment.setHotelData(hotelStreamManager.getLikedHotelStream());
+
+      ft = getSupportFragmentManager().beginTransaction();
+      ft.replace(R.id.stream_container, hotelStreamResultsFragment);
+      ft.commit();
+
+    } else {
+
+      if (hotelStreamManager.getHotelIndex() % INTERSTITIAL_LOAD_THRESHOLD == 0 && hotelStreamManager.getHotelIndex() != 0 && interstitialAd.isLoaded()) {
+        interstitialAd.show();
+      }
+
+      profileManager.checkHotelOnLike(hotelStreamManager.getCurrentHotel());
+
+      ft = getSupportFragmentManager().beginTransaction();
+      ft.replace(R.id.stream_container, hotelStreamManager.getNextFragment());
+      ft.commit();
+
     }
-
-    profileManager.checkHotelOnLike(hotelStreamManager.getCurrentHotel());
-
-    ft = getSupportFragmentManager().beginTransaction();
-    ft.replace(R.id.stream_container, hotelStreamManager.getNextFragment());
-    ft.commit();
   }
+
 }

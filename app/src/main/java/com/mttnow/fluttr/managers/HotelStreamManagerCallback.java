@@ -1,6 +1,6 @@
 package com.mttnow.fluttr.managers;
 
-import com.mttnow.fluttr.service.hotels.HotelStreamFragment;
+import com.mttnow.fluttr.HotelStreamFragment;
 
 import java.util.List;
 
