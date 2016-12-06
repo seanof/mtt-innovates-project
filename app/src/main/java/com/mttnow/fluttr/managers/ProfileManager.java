@@ -21,7 +21,6 @@ public class ProfileManager {
 
   private String uid;
 
-
   public ProfileManager(String uid) {
     this.profile = new Profile();
     this.databaseRef = FirebaseDatabase.getInstance().getReference();
