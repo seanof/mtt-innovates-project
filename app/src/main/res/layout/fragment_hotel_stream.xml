@@ -1,18 +1,13 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.mttnow.fluttr.HotelStreamFragment">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:id="@+id/hotel_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/hotel_buttons_layout">
+        android:orientation="vertical">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/hotel_image"
@@ -20,10 +15,8 @@
             android:layout_marginBottom="20dp"
             android:layout_width="@dimen/stream_image_size"
             android:layout_height="@dimen/stream_image_size"
-            android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:scaleType="centerCrop"
-            />
+            android:scaleType="centerCrop"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -66,41 +59,4 @@
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/hotel_buttons_layout"
-        android:layout_above="@+id/adView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:background="@drawable/tab_background_rounded"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="25dp"
-            android:padding="@dimen/button_rounded_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:background="@drawable/tab_background_rounded"
-            android:src="@android:drawable/ic_input_add"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="25dp"
-            android:padding="@dimen/button_rounded_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </RelativeLayout>
-
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        ads:adSize="SMART_BANNER"
-        android:layout_gravity="center"
-        ads:adUnitId="@string/hotel_banner_ad"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
-    </com.google.android.gms.ads.AdView>
-
-</RelativeLayout>
+</FrameLayout>

@@ -29,6 +29,7 @@ public class HotelStreamManager {
     public HotelStreamManager(Context c, String destination) {
         this.context = c;
         this.destination = destination;
+        this.likedHotelStream = new ArrayList<>();
     }
 
     public void startStream (final StreamManagerCallback<HotelStreamFragment> callback) {
