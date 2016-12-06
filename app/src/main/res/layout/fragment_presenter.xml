@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:src="@android:drawable/ic_search_category_default" />
+            android:src="@mipmap/ic_launcher" />
 
         <Button
             android:layout_width="wrap_content"

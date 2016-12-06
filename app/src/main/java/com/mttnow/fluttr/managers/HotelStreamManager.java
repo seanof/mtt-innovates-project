@@ -5,7 +5,7 @@ import android.widget.Toast;
 
 import com.mttnow.fluttr.api.BaseRetrofit;
 import com.mttnow.fluttr.domain.hotels.Hotel;
-import com.mttnow.fluttr.service.hotels.HotelStreamFragment;
+import com.mttnow.fluttr.HotelStreamFragment;
 import com.mttnow.fluttr.service.hotels.HotelsService;
 
 import java.util.ArrayList;
@@ -19,6 +19,7 @@ public class HotelStreamManager {
 
     private Context context;
     private List<Hotel> currentHotelStream;
+    private List<Hotel> likedHotelStream;
     private ArrayList<HotelStreamFragment> currentHotelFragments;
 
     private int hotelIndex;
@@ -56,6 +57,10 @@ public class HotelStreamManager {
         return currentHotelStream.get(hotelIndex);
     }
 
+    public void likeCurrentHotel () {
+        likedHotelStream.add(getCurrentHotel());
+    }
+
     public HotelStreamFragment getNextFragment() {
         hotelIndex++;
         return currentHotelFragments.get(hotelIndex);
@@ -74,5 +79,13 @@ public class HotelStreamManager {
 
     public int getHotelIndex() {
         return hotelIndex;
+    }
+
+    public List<Hotel> getLikedHotelStream() {
+        return likedHotelStream;
+    }
+
+    public boolean isEndOfStream() {
+        return hotelIndex >= currentHotelStream.size();
     }
 }

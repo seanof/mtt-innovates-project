@@ -136,11 +136,25 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
         goToNextHotel();
       }
       public void onSwipeLeft() {
+        //Like
+        hotelStreamManager.likeCurrentHotel();
         goToNextHotel();
       }
     });
 
     hideProgress();
+
+    interstitialAd = new InterstitialAd(this);
+    interstitialAd.setAdUnitId(getString(R.string.hotel_interstitial_ad));
+
+    interstitialAd.setAdListener(new AdListener() {
+      @Override
+      public void onAdClosed() {
+        requestNewInterstitial();
+      }
+    });
+
+    requestNewInterstitial();
 
   }
 
@@ -204,14 +218,27 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
   float distX, distY;
 
   private void goToNextHotel () {
+    if (hotelStreamManager.isEndOfStream()) {
+
+      HotelStreamResultsFragment hotelStreamResultsFragment = new HotelStreamResultsFragment();
+      hotelStreamResultsFragment.setHotelData(hotelStreamManager.getLikedHotelStream());
+
+      ft = getSupportFragmentManager().beginTransaction();
+      ft.replace(R.id.stream_container, hotelStreamResultsFragment);
+      ft.commit();
+
+    } else {
     if (hotelStreamManager.getHotelIndex() % INTERSTITIAL_LOAD_THRESHOLD == 0 && hotelStreamManager.getHotelIndex() != 0 && interstitialAd.isLoaded()) {
       interstitialAd.show();
     }
 
-    profileManager.checkHotelOnLike(hotelStreamManager.getCurrentHotel());
+      profileManager.checkHotelOnLike(hotelStreamManager.getCurrentHotel());
 
-    ft = getSupportFragmentManager().beginTransaction();
-    ft.replace(R.id.stream_container, hotelStreamManager.getNextFragment());
-    ft.commit();
+      ft = getSupportFragmentManager().beginTransaction();
+      ft.replace(R.id.stream_container, hotelStreamManager.getNextFragment());
+      ft.commit();
+
+    }
   }
+
 }

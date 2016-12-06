@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MTT Travel Tinder</string>
+    <string name="app_name">Fluttr</string>
 
     <string name="title_activity_presenter">PresenterActivity</string>
     <string name="dummy_button">Dummy Button</string>
