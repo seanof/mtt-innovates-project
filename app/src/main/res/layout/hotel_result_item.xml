@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
+              android:layout_marginBottom="5dp"
               android:layout_width="match_parent"
-              android:layout_height="40dp"
-              android:background="@color/tag_key_background"
-              android:padding="5dp"
-    >
+              android:layout_height="wrap_content"
+              android:background="@drawable/tab_background_rounded"
+              android:padding="5dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/result_item_image"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginRight="10dp"
         android:layout_width="@dimen/stream_result_image_size"
         android:layout_height="@dimen/stream_result_image_size"
         android:layout_gravity="left"
@@ -21,6 +20,11 @@
         android:id="@+id/result_item_name"
         style="@style/baseFontFamily"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:textSize="20dp"
+        android:maxLines="1"
+        android:ellipsize="end"/>
 
 </LinearLayout>

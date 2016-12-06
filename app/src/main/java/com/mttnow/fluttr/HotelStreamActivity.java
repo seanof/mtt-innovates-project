@@ -103,7 +103,7 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
       }
     });
 
-    findViewById(R.id.hotel_buttons_layout).setVisibility(View.VISIBLE);
+    showButtonControls();
 
     position = (TextView) findViewById(R.id.position);
 
@@ -240,6 +240,8 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
       ft.replace(R.id.stream_container, hotelStreamResultsFragment);
       ft.commit();
 
+      hideButtonControls();
+
     } else {
       if (hotelStreamManager.getHotelIndex() % INTERSTITIAL_LOAD_THRESHOLD == 0 && hotelStreamManager.getHotelIndex() != 0 && interstitialAd.isLoaded()) {
         interstitialAd.show();
@@ -252,6 +254,14 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
       ft.commit();
 
     }
+  }
+
+  private void showButtonControls () {
+    findViewById(R.id.hotel_buttons_layout).setVisibility(View.VISIBLE);
+  }
+
+  private void hideButtonControls () {
+    findViewById(R.id.hotel_buttons_layout).setVisibility(View.GONE);
   }
 
 }

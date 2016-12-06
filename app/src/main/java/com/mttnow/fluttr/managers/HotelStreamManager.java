@@ -87,6 +87,6 @@ public class HotelStreamManager {
     }
 
     public boolean isEndOfStream() {
-        return hotelIndex >= currentHotelStream.size();
+        return hotelIndex >= currentHotelStream.size() - 1;
     }
 }

@@ -36,7 +36,7 @@ public class HotelStreamResultsFragment extends Fragment implements View.OnClick
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-    ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_hotel_stream, container, false);
+    ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_hotel_stream_results, container, false);
 
     ListView hotelResultList = (ListView) v.findViewById(R.id.results_list);
     hotelResultList.setAdapter(new HotelResultAdapter(likedHotels));

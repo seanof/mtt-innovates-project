@@ -5,6 +5,7 @@ import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -19,7 +20,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by seanb on 06/12/2016.
  */
 
-public class HotelResultAdapter implements ListAdapter {
+public class HotelResultAdapter extends BaseAdapter {
 
   List<Hotel> hotels;
 
@@ -86,15 +87,7 @@ public class HotelResultAdapter implements ListAdapter {
     return item;
   }
 
-  @Override
-  public int getItemViewType(int position) {
-    return 0;
-  }
 
-  @Override
-  public int getViewTypeCount() {
-    return 0;
-  }
 
   @Override
   public boolean isEmpty() {
