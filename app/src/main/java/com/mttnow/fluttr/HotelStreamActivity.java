@@ -27,7 +27,6 @@ import com.mttnow.fluttr.listeners.OnSwipeTouchListener;
 import com.mttnow.fluttr.managers.HotelStreamManager;
 import com.mttnow.fluttr.managers.HotelStreamManagerCallback;
 import com.mttnow.fluttr.managers.ProfileManager;
-import com.mttnow.fluttr.service.hotels.HotelStreamFragment;
 
 import java.util.List;
 
