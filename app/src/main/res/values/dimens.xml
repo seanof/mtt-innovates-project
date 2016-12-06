@@ -5,6 +5,7 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="stream_image_size">180dp</dimen>
+    <dimen name="stream_result_image_size">40dp</dimen>
     <dimen name="button_rounded_size">20dp</dimen>
 
 </resources>

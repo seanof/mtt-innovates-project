@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intent.putExtra(DESTINATION, "Paris");
                 intent.putExtra(DEPART, "");
                 intent.putExtra(RETURN, "");
-                intent.putExtra(NUM_TRAVELLERS, "1");
+                intent.putExtra(NUM_TRAVELLERS, 1);
                 intent.setClass(this, HotelStreamActivity.class);
                 startActivity(intent);
                 break;
