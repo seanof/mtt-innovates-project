@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,8 +19,8 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mttnow.fluttr.listeners.OnSwipeTouchListener;
@@ -41,6 +42,7 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
 
   private ViewGroup container;
   private TextView position;
+  private ProgressBar progressBar;
 
   private ProfileManager profileManager;
   private HotelStreamManager hotelStreamManager;
@@ -69,6 +71,23 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
     departDate = extras.getString(DEPART);
     returnDate = extras.getString(RETURN);
     numTravellers = extras.getInt(NUM_TRAVELLERS);
+
+    progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+    interstitialAd = new InterstitialAd(this);
+    interstitialAd.setAdUnitId(getString(R.string.hotel_interstitial_ad));
+    interstitialAd.setAdListener(new AdListener() {
+      @Override
+      public void onAdClosed() {
+        requestNewInterstitial();
+      }
+    });
+
+    requestNewInterstitial();
+
+  }
+
+  private void startUI() {
 
     ft = getSupportFragmentManager().beginTransaction();
 
@@ -121,23 +140,13 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
       }
     });
 
-    interstitialAd = new InterstitialAd(this);
-    interstitialAd.setAdUnitId(getString(R.string.hotel_interstitial_ad));
-
-    interstitialAd.setAdListener(new AdListener() {
-      @Override
-      public void onAdClosed() {
-        requestNewInterstitial();
-      }
-    });
-
-    requestNewInterstitial();
+    hideProgress();
 
   }
 
   private void requestNewInterstitial() {
     AdRequest adRequest = new AdRequest.Builder()
-      .build();
+            .build();
 
     interstitialAd.loadAd(adRequest);
   }
@@ -145,6 +154,14 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
   private void userSignIn(String email, String password) {
     firebaseAuth = FirebaseAuth.getInstance();
     firebaseAuth.signInWithEmailAndPassword(email, password)
+            .addOnFailureListener(this, new OnFailureListener() {
+              @Override
+              public void onFailure(@NonNull Exception e) {
+                Toast.makeText(HotelStreamActivity.this, "Authentication failed. Please check your email and password.",
+                        Toast.LENGTH_SHORT).show();
+                finish();
+              }
+            })
             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
               @Override
               public void onComplete(@NonNull Task<AuthResult> task) {
@@ -152,6 +169,7 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
                 if (firebaseAuth.getCurrentUser() != null) {
                   profileManager = new ProfileManager(firebaseAuth.getCurrentUser().getUid());
                   profileManager.getProfile(firebaseAuth.getCurrentUser().getUid());
+                  startUI();
                 }
 
                 // If sign in fails, display a message to the user. If sign in succeeds
@@ -161,9 +179,16 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
                   Log.w("FLUTTR", "signInWithEmail:failed", task.getException());
                   Toast.makeText(HotelStreamActivity.this, "Authentication failed. Please check your email and password.",
                           Toast.LENGTH_SHORT).show();
+                  finish();
                 }
               }
             });
+  }
+
+  private void hideProgress() {
+    if (progressBar != null) {
+      progressBar.setVisibility(View.GONE);
+    }
   }
 
   @Override
@@ -179,7 +204,6 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
   float distX, distY;
 
   private void goToNextHotel () {
-
     if (hotelStreamManager.getHotelIndex() % INTERSTITIAL_LOAD_THRESHOLD == 0 && hotelStreamManager.getHotelIndex() != 0 && interstitialAd.isLoaded()) {
       interstitialAd.show();
     }
