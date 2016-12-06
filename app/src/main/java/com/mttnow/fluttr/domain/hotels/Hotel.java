@@ -18,6 +18,10 @@ public class Hotel implements Serializable {
     return retailHotelInfoModel.getName();
   }
 
+  public String getHotelDescription() {
+    return retailHotelInfoModel.getDesc();
+  }
+
   public String getHotelImage() {
     return retailHotelInfoModel.getImageUrl();
   }

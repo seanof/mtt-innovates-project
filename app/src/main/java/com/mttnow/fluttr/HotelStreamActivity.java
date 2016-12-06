@@ -15,11 +15,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mttnow.fluttr.listeners.OnSwipeTouchListener;
@@ -51,7 +51,8 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
   private String returnDate;
   private int numTravellers;
 
-  InterstitialAd mInterstitialAd;
+  InterstitialAd interstitialAd;
+  private static final int INTERSTITIAL_LOAD_THRESHOLD = 5;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -120,10 +121,10 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
       }
     });
 
-    mInterstitialAd = new InterstitialAd(this);
-    mInterstitialAd.setAdUnitId(getString(R.string.hotel_interstitial_ad));
+    interstitialAd = new InterstitialAd(this);
+    interstitialAd.setAdUnitId(getString(R.string.hotel_interstitial_ad));
 
-    mInterstitialAd.setAdListener(new AdListener() {
+    interstitialAd.setAdListener(new AdListener() {
       @Override
       public void onAdClosed() {
         requestNewInterstitial();
@@ -138,7 +139,7 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
     AdRequest adRequest = new AdRequest.Builder()
       .build();
 
-    mInterstitialAd.loadAd(adRequest);
+    interstitialAd.loadAd(adRequest);
   }
 
   private void userSignIn(String email, String password) {
@@ -177,12 +178,12 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
   float startDownX, startDownY;
   float distX, distY;
 
-
-
   private void goToNextHotel () {
-    if (mInterstitialAd.isLoaded()) {
-      mInterstitialAd.show();
+
+    if (hotelStreamManager.getHotelIndex() % INTERSTITIAL_LOAD_THRESHOLD == 0 && hotelStreamManager.getHotelIndex() != 0 && interstitialAd.isLoaded()) {
+      interstitialAd.show();
     }
+
     profileManager.checkHotelOnLike(hotelStreamManager.getCurrentHotel());
 
     ft = getSupportFragmentManager().beginTransaction();

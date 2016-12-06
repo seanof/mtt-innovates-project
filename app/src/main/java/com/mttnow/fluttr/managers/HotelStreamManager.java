@@ -20,6 +20,7 @@ public class HotelStreamManager {
     private Context context;
     private List<Hotel> currentHotelStream;
     private ArrayList<HotelStreamFragment> currentHotelFragments;
+
     private int hotelIndex;
 
     private String destination;
@@ -69,5 +70,9 @@ public class HotelStreamManager {
         }
 
         return currentHotelFragments;
+    }
+
+    public int getHotelIndex() {
+        return hotelIndex;
     }
 }

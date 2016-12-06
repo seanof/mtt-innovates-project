@@ -1,8 +1,6 @@
 package com.mttnow.fluttr.service.hotels;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,19 +11,20 @@ import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mttnow.fluttr.R;
 import com.mttnow.fluttr.domain.hotels.Hotel;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
-public class HotelStreamFragment extends Fragment {
+public class HotelStreamFragment extends Fragment implements View.OnClickListener {
   // TODO: Rename parameter arguments, choose names that match
   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
   private static final String HOTEL_DATA = "param1";
 
   // TODO: Rename and change types of parameters
   private Hotel hotel;
+  private long startTime;
+  private TextView desc;
 
 //  private OnFragmentInteractionListener mListener;
 
@@ -49,13 +48,20 @@ public class HotelStreamFragment extends Fragment {
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+    startTime = System.currentTimeMillis();
+
     ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_hotel_stream, container, false);
 
     TextView name = (TextView) v.findViewById(R.id.hotel_name);
     ImageView image = (ImageView) v.findViewById(R.id.hotel_image);
+    desc = (TextView) v.findViewById(R.id.hotel_desc);
 
     name.setText(hotel.getHotelName());
     Picasso.with(getContext()).load("https:" + hotel.getHotelImage()).into(image);
+
+    desc.setText(hotel.getHotelDescription());
+    desc.setOnClickListener(this);
 
     ViewGroup leftCol = (ViewGroup) v.findViewById(R.id.hotel_keys_left_col);
 
@@ -91,8 +97,26 @@ public class HotelStreamFragment extends Fragment {
 
   @Override
   public void onDetach() {
+    logTimingEvent();
     super.onDetach();
 //    mListener = null;
+  }
+
+  private void logTimingEvent() {
+    long endTime = System.currentTimeMillis();
+    FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
+    Bundle params = new Bundle();
+    params.putString("hotel_view_timing", Long.toString(endTime - startTime));
+    analytics.logEvent("user_timing", params);
+  }
+
+  @Override
+  public void onClick(View view) {
+    switch (view.getId()) {
+      case R.id.hotel_desc:
+        desc.setMaxLines(Integer.MAX_VALUE);
+        break;
+    }
   }
 
 //  public interface OnFragmentInteractionListener {
