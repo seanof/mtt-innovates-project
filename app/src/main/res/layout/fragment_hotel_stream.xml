@@ -4,27 +4,29 @@
     android:layout_height="match_parent"
     tools:context="com.mttnow.fluttr.HotelStreamFragment">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent" >
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/hotel_image"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="20dp"
             android:layout_width="@dimen/stream_image_size"
             android:layout_height="@dimen/stream_image_size"
-            android:layout_gravity="center"
-            android:scaleType="centerCrop"/>
+            android:gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:scaleType="centerCrop"
+            android:layout_centerHorizontal="true"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/hotel_deets"
+            android:layout_below="@id/hotel_image"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:orientation="vertical"
+            android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal">
 
             <TextView
@@ -36,6 +38,7 @@
                 android:layout_marginRight="20dp"/>
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/hotel_desc"
                 android:maxLines="3"
                 android:ellipsize="end"
@@ -49,14 +52,16 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <com.wefika.flowlayout.FlowLayout
             android:id="@+id/hotel_keys_left_col"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal">
-        </LinearLayout>
+            android:layout_below="@+id/hotel_deets"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center|top">
+        </com.wefika.flowlayout.FlowLayout>
 
-    </LinearLayout>
+
+    </RelativeLayout>
 
 </FrameLayout>

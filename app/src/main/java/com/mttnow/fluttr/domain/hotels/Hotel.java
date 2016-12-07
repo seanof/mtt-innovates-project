@@ -34,4 +34,7 @@ public class Hotel implements Serializable {
     this.preferenceKeys = preferenceKeys;
   }
 
+  public String getPriceString() {
+    return retailHotelPricingModel.getPriceFormatted();
+  }
 }
