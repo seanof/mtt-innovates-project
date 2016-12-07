@@ -23,4 +23,8 @@
     <string name="ads_app_id">ca-app-pub-5476002465270320~5242797299</string>
     <string name="hotel_banner_ad">ca-app-pub-5476002465270320/8196263699</string>
     <string name="hotel_interstitial_ad">ca-app-pub-5476002465270320/6300728098</string>
+    <string name="fluttr">FLUTTR</string>
+    <string name="quick_search">Quick Search</string>
+    <string name="fluttr_through_your_perfect_booking">Fluttr through your perfect booking.</string>
+    <string name="get_started">Get Started</string>
 </resources>

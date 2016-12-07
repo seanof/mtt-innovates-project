@@ -11,7 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -108,51 +107,51 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
 
         ft.replace(R.id.stream_container, fragment);
         ft.commit();
+
+        showButtonControls();
+
+        position = (TextView) findViewById(R.id.position);
+
+        container = (ViewGroup) findViewById(R.id.stream_container);
+        container.setOnTouchListener(new OnSwipeTouchListener(HotelStreamActivity.this) {
+          @Override
+          public boolean onTouch(View v, MotionEvent event) {
+            super.onTouch(v, event);
+            int action = event.getActionMasked();
+
+            switch(action) {
+              case MotionEvent.ACTION_DOWN:
+                startDownX = event.getX();
+                startDownY = event.getY();
+                break;
+              case MotionEvent.ACTION_MOVE:
+                distX = event.getX() - startDownX;
+                distY = event.getY() - startDownY;
+                break;
+              case MotionEvent.ACTION_UP:
+                distX = 0;
+                distY = 0;
+                startDownX = 0;
+                startDownY = 0;
+                break;
+            }
+
+            position.setText(distX + ", " + distY);
+            return true;
+          }
+          public void onSwipeRight() {
+            goToNextHotel();
+          }
+          public void onSwipeLeft() {
+            //Like
+            hotelStreamManager.likeCurrentHotel();
+            goToNextHotel();
+          }
+        });
+
+        hideProgress();
       }
     });
-
-    showButtonControls();
-
-    position = (TextView) findViewById(R.id.position);
-
-    container = (ViewGroup) findViewById(R.id.stream_container);
-    container.setOnTouchListener(new OnSwipeTouchListener(HotelStreamActivity.this) {
-      @Override
-      public boolean onTouch(View v, MotionEvent event) {
-        super.onTouch(v, event);
-        int action = event.getActionMasked();
-
-        switch(action) {
-          case MotionEvent.ACTION_DOWN:
-            startDownX = event.getX();
-            startDownY = event.getY();
-            break;
-          case MotionEvent.ACTION_MOVE:
-            distX = event.getX() - startDownX;
-            distY = event.getY() - startDownY;
-            break;
-          case MotionEvent.ACTION_UP:
-            distX = 0;
-            distY = 0;
-            startDownX = 0;
-            startDownY = 0;
-            break;
-        }
-
-        position.setText(distX + ", " + distY);
-        return true;
-      }
-      public void onSwipeRight() {
-        goToNextHotel();
-      }
-      public void onSwipeLeft() {
-        //Like
-        hotelStreamManager.likeCurrentHotel();
-        goToNextHotel();
-      }
-    });
-
-    hideProgress();
 
     AdView mAdView = (AdView) findViewById(R.id.adView);
 
@@ -234,6 +233,7 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
         break;
       case R.id.like_button:
         hotelStreamManager.likeCurrentHotel();
+        goToNextHotel();
         break;
       case R.id.dislike_button:
         goToNextHotel();
