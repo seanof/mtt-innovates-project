@@ -77,4 +77,9 @@
         <item name="android:gravity">right</item>
     </style>
 
+    <style name="result_item_price" parent="baseFontFamily">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">26sp</item>
+    </style>
+
 </resources>

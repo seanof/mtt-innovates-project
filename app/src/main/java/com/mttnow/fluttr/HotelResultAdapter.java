@@ -83,6 +83,7 @@ public class HotelResultAdapter extends BaseAdapter {
     ((TextView) item.findViewById(R.id.result_item_name)).setText(hotel.getHotelName());
     Picasso.with(parent.getContext()).load("https:" + hotel.getHotelImage()).into(
       (CircleImageView) item.findViewById(R.id.result_item_image));
+    ((TextView) item.findViewById(R.id.result_item_price)).setText(hotel.getPriceString());
 
     return item;
   }

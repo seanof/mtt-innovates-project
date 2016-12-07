@@ -5,4 +5,15 @@ package com.mttnow.fluttr.domain.hotels;
  */
 
 public class HotelPricing {
+
+  private String priceFormatted;
+
+  public String getPriceFormatted() {
+    return priceFormatted;
+  }
+
+  public void setPriceFormatted(String priceFormatted) {
+    this.priceFormatted = priceFormatted;
+  }
+
 }
