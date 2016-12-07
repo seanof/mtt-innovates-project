@@ -16,5 +16,5 @@ import retrofit2.http.Query;
 public interface HotelsService {
 
     @GET("/hotels")
-    Call<List<Hotel>> listHotels(@Query("destination") String destination);
+    Call<List<Hotel>> listHotels(@Query("destination") String destination, @Query("preferenceKeys") String preferenceKeys);
 }

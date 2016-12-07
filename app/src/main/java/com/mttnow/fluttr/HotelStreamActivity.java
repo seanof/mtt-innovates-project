@@ -84,7 +84,7 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
 
     ft = getSupportFragmentManager().beginTransaction();
 
-    hotelStreamManager = new HotelStreamManager(this, destination);
+    hotelStreamManager = new HotelStreamManager(this, destination, null);
 
     hotelStreamManager.startStream(new HotelStreamManagerCallback() {
       @Override

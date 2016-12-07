@@ -28,6 +28,10 @@ public class ProfileManager {
     getProfile(uid);
   }
 
+  public Profile getCurrentProfile() {
+    return profile;
+  }
+
   // [START basic_write]
   public void writeProfile() {
     databaseRef.child("users").child(uid).setValue(profile);

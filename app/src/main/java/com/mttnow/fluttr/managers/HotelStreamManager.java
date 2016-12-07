@@ -3,9 +3,9 @@ package com.mttnow.fluttr.managers;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.mttnow.fluttr.HotelStreamFragment;
 import com.mttnow.fluttr.api.BaseRetrofit;
 import com.mttnow.fluttr.domain.hotels.Hotel;
-import com.mttnow.fluttr.HotelStreamFragment;
 import com.mttnow.fluttr.service.hotels.HotelsService;
 
 import java.util.ArrayList;
@@ -21,21 +21,23 @@ public class HotelStreamManager {
     private List<Hotel> currentHotelStream;
     private List<Hotel> likedHotelStream;
     private ArrayList<HotelStreamFragment> currentHotelFragments;
+    private ProfileManager profileManager;
 
     private int hotelIndex;
 
     private String destination;
 
-    public HotelStreamManager(Context c, String destination) {
+    public HotelStreamManager(Context c, String destination, ProfileManager profileManager) {
         this.context = c;
         this.destination = destination;
         this.likedHotelStream = new ArrayList<>();
+        this.profileManager = profileManager;
     }
 
     public void startStream (final StreamManagerCallback<HotelStreamFragment> callback) {
         if (destination != null) {
             HotelsService service = BaseRetrofit.retrofit.create(HotelsService.class);
-            Call<List<Hotel>> call = service.listHotels(destination);
+            Call<List<Hotel>> call = service.listHotels(destination, profileManager.getCurrentProfile().getHotelPreferenceKeys().toString());
             call.enqueue(new Callback<List<Hotel>>() {
                 @Override
                 public void onResponse(Call<List<Hotel>> call, Response<List<Hotel>> response) {
