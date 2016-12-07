@@ -2,27 +2,20 @@ package com.mttnow.fluttr;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mttnow.fluttr.listeners.OnSwipeTouchListener;
 import com.mttnow.fluttr.managers.HotelStreamManager;
@@ -38,15 +31,10 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
   private static final String RETURN = "return";
   private static final String NUM_TRAVELLERS = "numTravellers";
 
-  private FirebaseAuth firebaseAuth;
-
   private ViewGroup container;
   private TextView position;
   private ProgressBar progressBar;
-  private View dislike;
-  private View like;
 
-  private ProfileManager profileManager;
   private HotelStreamManager hotelStreamManager;
   private FragmentTransaction ft;
 
@@ -66,8 +54,6 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
 
     MobileAds.initialize(getApplicationContext(), getString(R.string.ads_app_id));
 
-    userSignIn("sean.bolger@mttnow.com", "test1234");
-
     Bundle extras = getIntent().getExtras();
     destination = extras.getString(DESTINATION);
     departDate = extras.getString(DEPART);
@@ -76,10 +62,10 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
 
     progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-    like = findViewById(R.id.like_button);
-    dislike = findViewById(R.id.dislike_button);
-    like.setOnClickListener(this);
-    dislike.setOnClickListener(this);
+    findViewById(R.id.like_button).setOnClickListener(this);
+    findViewById(R.id.dislike_button).setOnClickListener(this);
+
+    startUI();
 
     interstitialAd = new InterstitialAd(this);
     interstitialAd.setAdUnitId(getString(R.string.hotel_interstitial_ad));
@@ -185,40 +171,6 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
     interstitialAd.loadAd(adRequest);
   }
 
-  private void userSignIn(String email, String password) {
-    firebaseAuth = FirebaseAuth.getInstance();
-    firebaseAuth.signInWithEmailAndPassword(email, password)
-            .addOnFailureListener(this, new OnFailureListener() {
-              @Override
-              public void onFailure(@NonNull Exception e) {
-                Toast.makeText(HotelStreamActivity.this, "Authentication failed. Please check your email and password.",
-                        Toast.LENGTH_SHORT).show();
-                finish();
-              }
-            })
-            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-              @Override
-              public void onComplete(@NonNull Task<AuthResult> task) {
-                Log.d("FLUTTR", "signInWithEmail:onComplete:" + task.isSuccessful());
-                if (firebaseAuth.getCurrentUser() != null) {
-                  profileManager = new ProfileManager(firebaseAuth.getCurrentUser().getUid());
-                  profileManager.getProfile(firebaseAuth.getCurrentUser().getUid());
-                  startUI();
-                }
-
-                // If sign in fails, display a message to the user. If sign in succeeds
-                // the auth state listener will be notified and logic to handle the
-                // signed in user can be handled in the listener.
-                if (!task.isSuccessful()) {
-                  Log.w("FLUTTR", "signInWithEmail:failed", task.getException());
-                  Toast.makeText(HotelStreamActivity.this, "Authentication failed. Please check your email and password.",
-                          Toast.LENGTH_SHORT).show();
-                  finish();
-                }
-              }
-            });
-  }
-
   private void hideProgress() {
     if (progressBar != null) {
       progressBar.setVisibility(View.GONE);
@@ -261,6 +213,7 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
         interstitialAd.show();
       }
 
+      ProfileManager profileManager = new ProfileManager(FirebaseAuth.getInstance().getCurrentUser().getUid());
       profileManager.checkHotelOnLike(hotelStreamManager.getCurrentHotel());
 
       ft = getSupportFragmentManager().beginTransaction();

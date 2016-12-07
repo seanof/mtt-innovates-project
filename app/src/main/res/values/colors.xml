@@ -13,5 +13,6 @@
     <color name="tag_key_background">#44FFFFFF</color>
 
     <color name="text_white_translucent">#ccFFFFFF</color>
+    <color name="white">#FFFFFFFF</color>
 
 </resources>
