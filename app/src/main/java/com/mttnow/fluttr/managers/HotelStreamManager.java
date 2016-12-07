@@ -73,7 +73,8 @@ public class HotelStreamManager {
         currentHotelFragments = new ArrayList<>();
 
         for (Hotel hotel : hotels) {
-            HotelStreamFragment hotelFragment = HotelStreamFragment.newInstance(hotel);
+            HotelStreamFragment hotelFragment = new HotelStreamFragment();
+            hotelFragment.setHotel(hotel);
             currentHotelFragments.add(hotelFragment);
         }
 

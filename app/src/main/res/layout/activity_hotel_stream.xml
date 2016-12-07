@@ -11,6 +11,7 @@
     <TextView
         android:id="@+id/position"
         android:gravity="center"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
@@ -18,13 +19,13 @@
         android:id="@+id/stream_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/hotel_buttons_layout"
+        android:layout_above="@+id/adView"
         android:orientation="vertical" />
 
     <RelativeLayout
         android:id="@+id/hotel_buttons_layout"
         android:visibility="invisible"
-        android:padding="5dp"
+        android:padding="15dp"
         android:layout_above="@+id/adView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -32,7 +33,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/dislike_button"
             android:background="@drawable/tab_background_rounded"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:src="@drawable/ic_clear_black"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="25dp"
             android:padding="@dimen/button_rounded_size"
@@ -42,7 +43,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/like_button"
             android:background="@drawable/tab_background_rounded"
-            android:src="@android:drawable/ic_input_add"
+            android:src="@drawable/ic_done_black"
             android:layout_alignParentRight="true"
             android:layout_marginRight="25dp"
             android:padding="@dimen/button_rounded_size"

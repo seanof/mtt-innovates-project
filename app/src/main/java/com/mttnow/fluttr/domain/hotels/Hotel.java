@@ -7,7 +7,7 @@ import java.util.List;
  * Created by seanb on 22/11/2016.
  */
 
-public class Hotel implements Serializable {
+public class Hotel {
 
   private HotelInfo retailHotelInfoModel;
   private HotelPricing retailHotelPricingModel;

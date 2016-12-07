@@ -45,7 +45,7 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
   private int numTravellers;
 
   InterstitialAd interstitialAd;
-  private static final int INTERSTITIAL_LOAD_THRESHOLD = 5;
+  private static final int INTERSTITIAL_LOAD_THRESHOLD = 6;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,6 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
     findViewById(R.id.dislike_button).setOnClickListener(this);
 
     profileManager = new ProfileManager(FirebaseAuth.getInstance().getCurrentUser().getUid());
-    startUI();
 
     interstitialAd = new InterstitialAd(this);
     interstitialAd.setAdUnitId(getString(R.string.hotel_interstitial_ad));
@@ -80,13 +79,26 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
 
     requestNewInterstitial();
 
+    startUI();
+
   }
 
   private void startUI() {
 
+    AdView mAdView = (AdView) findViewById(R.id.adView);
+
+    // for real devices
+//    AdRequest request = new AdRequest.Builder()
+//      .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)        // All emulators
+//      .addTestDevice("AC98C820A50B4AD8A2106EDE96FB87D4")  // An example device ID
+//      .build();
+
+    AdRequest adRequest = new AdRequest.Builder().build();
+    mAdView.loadAd(adRequest);
+
     ft = getSupportFragmentManager().beginTransaction();
 
-    hotelStreamManager = new HotelStreamManager(this, destination, null);
+    hotelStreamManager = new HotelStreamManager(this, destination, profileManager);
 
     hotelStreamManager.startStream(new HotelStreamManagerCallback() {
       @Override
@@ -95,8 +107,6 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
 
         ft.replace(R.id.stream_container, fragment);
         ft.commit();
-
-        showButtonControls();
 
         position = (TextView) findViewById(R.id.position);
 
@@ -137,20 +147,11 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
           }
         });
 
+        showButtonControls();
+
         hideProgress();
       }
     });
-
-    AdView mAdView = (AdView) findViewById(R.id.adView);
-
-    // for real devices
-//    AdRequest request = new AdRequest.Builder()
-//      .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)        // All emulators
-//      .addTestDevice("AC98C820A50B4AD8A2106EDE96FB87D4")  // An example device ID
-//      .build();
-
-    AdRequest adRequest = new AdRequest.Builder().build();
-    mAdView.loadAd(adRequest);
 
     interstitialAd = new InterstitialAd(this);
     interstitialAd.setAdUnitId(getString(R.string.hotel_interstitial_ad));

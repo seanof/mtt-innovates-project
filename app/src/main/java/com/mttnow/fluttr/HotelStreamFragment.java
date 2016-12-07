@@ -27,12 +27,8 @@ public class HotelStreamFragment extends Fragment implements View.OnClickListene
 
   public HotelStreamFragment() { }
 
-  public static HotelStreamFragment newInstance(Hotel param1) {
-    HotelStreamFragment fragment = new HotelStreamFragment();
-    Bundle args = new Bundle();
-    args.putSerializable(HOTEL_DATA, param1);
-    fragment.setArguments(args);
-    return fragment;
+  public void setHotel(Hotel hotel) {
+    this.hotel = hotel;
   }
 
   @Override
@@ -55,6 +51,9 @@ public class HotelStreamFragment extends Fragment implements View.OnClickListene
     desc = (TextView) v.findViewById(R.id.hotel_desc);
 
     name.setText(hotel.getHotelName());
+    TextView price = (TextView) v.findViewById(R.id.hotel_price);
+    price.setText(hotel.getPriceString());
+
     Picasso.with(getContext()).load("https:" + hotel.getHotelImage()).into(image);
 
     desc.setText(hotel.getHotelDescription());
