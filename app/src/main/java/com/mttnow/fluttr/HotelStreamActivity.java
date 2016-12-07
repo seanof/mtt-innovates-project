@@ -36,6 +36,7 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
   private ProgressBar progressBar;
 
   private HotelStreamManager hotelStreamManager;
+  private ProfileManager profileManager;
   private FragmentTransaction ft;
 
   private String destination;
@@ -65,6 +66,7 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
     findViewById(R.id.like_button).setOnClickListener(this);
     findViewById(R.id.dislike_button).setOnClickListener(this);
 
+    profileManager = new ProfileManager(FirebaseAuth.getInstance().getCurrentUser().getUid());
     startUI();
 
     interstitialAd = new InterstitialAd(this);
@@ -213,7 +215,6 @@ public class HotelStreamActivity extends AppCompatActivity implements View.OnCli
         interstitialAd.show();
       }
 
-      ProfileManager profileManager = new ProfileManager(FirebaseAuth.getInstance().getCurrentUser().getUid());
       profileManager.checkHotelOnLike(hotelStreamManager.getCurrentHotel());
 
       ft = getSupportFragmentManager().beginTransaction();

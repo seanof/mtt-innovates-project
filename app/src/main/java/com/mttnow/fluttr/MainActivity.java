@@ -92,8 +92,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d("FLUTTR", "signInWithEmail:onComplete:" + task.isSuccessful());
                         if (firebaseAuth.getCurrentUser() != null) {
-                            ProfileManager profileManager = new ProfileManager(firebaseAuth.getCurrentUser().getUid());
-                            profileManager.getProfile(firebaseAuth.getCurrentUser().getUid());
                             startActivity(new Intent(MainActivity.this, SearchActivity.class));
                         }
 
